@@ -5,7 +5,11 @@ img_arr = imread(input_img);
 [x,y] = size(img_arr);
 x_new = 1:d:x;
 y_new = 1:d:y;
+% Copying the value from old image array to new image array only at pixels
+% with gap of d
 shrinked_img = img_arr(x_new,y_new);
+
+
 myNumOfColors=200;
 myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
 colormap(myColorScale);

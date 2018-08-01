@@ -9,7 +9,10 @@ newim=zeros(newr,newc);
 vec1=1:3:newr;
 vec2=1:2:newc;
 
-newim(vec1,vec2) = im;
+newim(vec1,vec2) = im;%old image is transferred to expected index of new image
+
+%filling the values of pixel along rows overlaping with old image row by
+%pixel value next to it
 for i = 1:newr
     for j = 1:newc
         if(mod(i,3) == 1 && mod(j,2) == 0)
@@ -17,6 +20,7 @@ for i = 1:newr
         end
     end
 end
+%filling the values of remaining pixels by the value of pixel above it 
 for i = 1:newr
     for j = 1:newc
         if(mod(i,3) == 2)
@@ -27,13 +31,13 @@ for i = 1:newr
     end
 end
 
-% myNumOfColors=200;
-% myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
-% colormap(myColorScale);
-% colormap gray;
+myNumOfColors=200;
+myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
+colormap(myColorScale);
+colormap gray;
 
 subplot(1,2,1);
-imshow(im),colorbar;
+imshow(mat2gray(im)),colorbar;
 subplot(1,2,2);
 imshow(mat2gray(newim)),colorbar;
 end
