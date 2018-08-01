@@ -1,14 +1,14 @@
 I=imread('../data/barbara.png');
-figure, imshow(I);
+% figure, imshow(I);
 
 min1=min(min(I));
 max1=max(max(I));
 New_I=round((I-min1)*(255/(max1-min1)));
 
-figure, imshow(New_I);
+% figure, imshow(New_I);
 
 I_colored=imread('../data/canyon.png');
-figure, imshow(I_colored);
+% figure, imshow(I_colored);
 
 I_red= I_colored(:,:,1);
 I_green = I_colored(:,:,2);
@@ -31,4 +31,16 @@ New_I_colored(:,:,1) = New_I_red;
 New_I_colored(:,:,2) = New_I_green;
 New_I_colored(:,:,3) = New_I_blue;
 
+
 figure, imshow(New_I_colored);
+
+myNumOfColors=200;
+myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
+imshow(mat2gray(New_I_colored)),colorbar;
+colormap(myColorScale);
+colormap jet;
+daspect([1,1,1]);
+axis tight;
+colorbar
+% subplot(1,2,2);
+% imshow(mat2gray(newim)),colorbar;
