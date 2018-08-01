@@ -10,9 +10,16 @@ myNumOfColors=200;
 myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
 colormap(myColorScale);
 colormap gray;
-daspect([1 1 1]);
-imagesc(shrinked_img);
-axis tight;
+
+subplot(1,2,1)
+imshow(mat2gray(img_arr))
+% daspect([1 1 1]);
+% axis tight;
+colorbar
+subplot(1,2,2)
+imshow(mat2gray(shrinked_img))
+% daspect([1 1 1]);
+% axis tight;
 colorbar
 
 % end

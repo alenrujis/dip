@@ -1,5 +1,5 @@
 function [] =myBilinearInterpolation(image)
-%image = '../data/barbaraSmall.png';
+% image = '../data/barbaraSmall.png';
 im =imread(image);
 [r ,c] = size(im); 
 newr=3*r-2;
@@ -27,9 +27,9 @@ for i = 1:newr
     end
 end
 subplot(1,2,1);
-imshow(im,[]),colorbar;
+imshow(mat2gray(im)),colorbar;
 subplot(1,2,2);
-imshow(newim, []),colorbar;
+imshow(mat2gray(newim)),colorbar;
 
 
 end

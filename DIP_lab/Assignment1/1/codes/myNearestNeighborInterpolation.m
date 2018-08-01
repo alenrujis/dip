@@ -26,8 +26,14 @@ for i = 1:newr
         end
     end
 end
+
+% myNumOfColors=200;
+% myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
+% colormap(myColorScale);
+% colormap gray;
+
 subplot(1,2,1);
-imshow(im,[]),colorbar;
+imshow(im),colorbar;
 subplot(1,2,2);
-imshow(newim, []),colorbar;
+imshow(mat2gray(newim)),colorbar;
 end
