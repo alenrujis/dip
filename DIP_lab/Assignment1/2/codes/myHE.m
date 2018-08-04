@@ -4,7 +4,8 @@ function [] = myHE(img,flag)
 
     image=imread(img);
     if flag==0
-        new_image=histeq(image);
+        eqhisto=MyHistogram(image)*255;
+        new_image=eqhisto(image+1);
         
         figure
         subplot(2,2,1);
@@ -12,18 +13,19 @@ function [] = myHE(img,flag)
         subplot(2,2,2);
         imhist(image);
         subplot(2,2,3);
-        imshow(new_image);
+        imshow(mat2gray(new_image));
         subplot(2,2,4);
-        imhist(new_image);
+        imhist(mat2gray(new_image));
     else
         image_red=image(:,:,1);
         image_green=image(:,:,2);
         image_blue=image(:,:,3);
-        
-        new_image_red = histeq(image_red);
-        new_image_green = histeq(image_green);
-        new_image_blue = histeq(image_blue);
-        
+        eqhist_red=MyHistogram(image_red)*255;
+        new_image_red = eqhist_red(image_red+1);
+        eqhist_green=MyHistogram(image_green)*255;
+        new_image_green = eqhist_green(image_green+1);
+        eqhist_blue=MyHistogram(image_blue)*255;
+        new_image_blue = eqhist_blue(image_blue+1);
         new_image(:,:,1) = new_image_red;
         new_image(:,:,2) = new_image_green;
         new_image(:,:,3) = new_image_blue;
@@ -39,15 +41,17 @@ function [] = myHE(img,flag)
         imhist(image(:,:,3));
         
         subplot(2,4,5);
-        imshow(new_image);
+        imshow(mat2gray(new_image));
         subplot(2,4,6);
-        imhist(new_image_red);
+        imhist(mat2gray(new_image_red));
         subplot(2,4,7);
-        imhist(new_image_green);
+        imhist(mat2gray(new_image_green));
         subplot(2,4,8);
-        imhist(new_image_blue);
+        imhist(mat2gray(new_image_blue));
         
         
     end
 end
+
+
 
