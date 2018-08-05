@@ -33,11 +33,21 @@ end
 
 myNumOfColors=200;
 myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
-colormap(myColorScale);
-colormap gray;
+
 
 subplot(1,2,1);
-imshow(mat2gray(im)),colorbar;
+imagesc(mat2gray(im));    
+colormap(myColorScale);
+colormap gray;
+daspect([1 1 1]);
+axis tight;
+colorbar
+
 subplot(1,2,2);
-imshow(mat2gray(newim)),colorbar;
+imagesc(mat2gray(newim));
+colormap(myColorScale);
+colormap gray;
+daspect([1 1 1]);
+axis tight;
+colorbar
 end

@@ -12,18 +12,23 @@ shrinked_img = img_arr(x_new,y_new);
 
 myNumOfColors=200;
 myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
-colormap(myColorScale);
-colormap gray;
+% colormap(myColorScale);
+% colormap gray;
 
 subplot(1,2,1)
-imshow(mat2gray(img_arr))
-% daspect([1 1 1]);
-% axis tight;
+imagesc(mat2gray(img_arr));
+colormap(myColorScale);
+colormap gray;
+daspect([1 1 1]);
+axis tight;
 colorbar
+
 subplot(1,2,2)
-imshow(mat2gray(shrinked_img))
-% daspect([1 1 1]);
-% axis tight;
+imagesc(mat2gray(shrinked_img));
+colormap(myColorScale);
+colormap gray;
+daspect([1 1 1]);
+axis tight;
 colorbar
 
 % end
