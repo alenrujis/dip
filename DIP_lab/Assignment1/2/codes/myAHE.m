@@ -2,27 +2,26 @@ function [] = myAHE(filename,flag,N)
 % inImgArr = imread('../data/canyon.png');
 % flag = 0;
 % N = 50;
-inImgArr = imread(filename);
+%-----------------------------------------------------------
+%Description- Implement AHE on filename with window size N
+%-----------------------------------------------------------
+inImgArr = imread(filename); % reading the file
 
 %% applying nlfilter
-fun = @(x) myAHEhelp(x,N);
-if flag==1
+fun = @(x) myAHEhelp(x,N); % function which has to be applied on block in nlfilter
+if flag==1 %for black and white images
 outImgArr = nlfilter(inImgArr,[N N],fun);
-elseif flag==0
+elseif flag==0 %for colored images
+    %applying nlfilter on 3 components seperately, after that recombine
+    %them
     inImgArrRed = inImgArr(:,:,1);
-%     figure(1)
-%     imshow(inImgArrRed)
     inImgArrGreen = inImgArr(:,:,2);
-%     figure(2)
-%     imshow(inImgArrGreen)
     inImgArrBlue = inImgArr(:,:,3);
-%     figure(3)
-%     imshow(inImgArrBlue)
 %%
     A = nlfilter(inImgArrRed,[N,N],fun);
     B = nlfilter(inImgArrGreen,[N,N],fun);
     C = nlfilter(inImgArrBlue,[N,N],fun);
-    %%
+  
     outImgArr(:,:,1) = A;
     outImgArr(:,:,2) = B;
     outImgArr(:,:,3) = C;

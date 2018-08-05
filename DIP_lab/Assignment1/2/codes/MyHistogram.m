@@ -1,5 +1,7 @@
 function cdf = MyHistogram(matrix)
-
+%-------------------------------------------------------------------
+%it take input Matrix and compute CDF of its intensity on 0-1 scale
+%--------------------------------------------------------------------
 %[r, c] = size(matrix);
 %counts = zeros(1, 256);
 %newcount=zeros(1,256);
@@ -10,14 +12,20 @@ function cdf = MyHistogram(matrix)
 % 		counts(grayLevel) = counts(grayLevel) + 1;
 % 	end
 % end
+
+%----------------------------------------------------------
 %computes frequency at each intensity(stored in counts)
+%---------------------------------------------------------
 K=0:256;
 newcount=histcounts(matrix,K);
 %total sum of intensity
 %total=sum(newcount);
-%cumulative distributive function. cdf
+%-------------------------------------------------------
+%cumulative sum
+%-------------------------------------------------------
 cdf = zeros(1,256);
 cum =cumsum(newcount);
+
 %cal=zeros(1,256);
 
 % cal(1)=counts(1);
@@ -25,7 +33,9 @@ cum =cumsum(newcount);
 %     cal(k)=counts(k)+cal(k-1);
 % end
 
+%---------------------
 %final cdf
+%---------------------
 cdf=cum/cum(end);
 
 %histogram equalising
