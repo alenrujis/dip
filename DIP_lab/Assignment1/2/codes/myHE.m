@@ -8,14 +8,12 @@ function [] = myHE(img,flag)
         new_image=eqhisto(image+1);
         
         figure
-        subplot(2,2,1);
+        subplot(1,2,1);
         imshow(image);
-        subplot(2,2,2);
-        imhist(image);
-        subplot(2,2,3);
+        
+        subplot(1,2,2);
         imshow(mat2gray(new_image));
-        subplot(2,2,4);
-        imhist(mat2gray(new_image));
+        
     else
         image_red=image(:,:,1);
         image_green=image(:,:,2);
@@ -31,23 +29,11 @@ function [] = myHE(img,flag)
         new_image(:,:,3) = new_image_blue;
         
         figure
-        subplot(2,4,1);
+        subplot(1,2,1);
         imshow(image);
-        subplot(2,4,2);
-        imhist(image(:,:,1));
-        subplot(2,4,3);
-        imhist(image(:,:,2));
-        subplot(2,4,4);
-        imhist(image(:,:,3));
         
-        subplot(2,4,5);
+        subplot(1,2,2);
         imshow(mat2gray(new_image));
-        subplot(2,4,6);
-        imhist(mat2gray(new_image_red));
-        subplot(2,4,7);
-        imhist(mat2gray(new_image_green));
-        subplot(2,4,8);
-        imhist(mat2gray(new_image_blue));
         
         
     end
