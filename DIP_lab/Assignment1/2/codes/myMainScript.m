@@ -1,36 +1,67 @@
 %% MyMainScript
 
 tic;
-%% Your code here
-figure(1)
+%% Linear Contrast Enhancing
+figure('Name', 'Linear Contrast Enhancing barbara')
+myLinearContrastStretching('../data/barbara.png',1)
+figure('Name', 'Linear Contrast Enhancing TEM')
+myLinearContrastStretching('../data/TEM.png',1)
+figure('Name', 'Linear Contrast Enhancing canyon')
+myLinearContrastStretching('../data/canyon.png',0)
+figure('Name', 'Linear Contrast Enhancing church')
+myLinearContrastStretching('../data/church.png',0)
+%% Histogram Equalization
+figure('Name', 'Histogram Equalization barbara')
+myHE('../data/barbara.png',1)
+figure('Name', 'Histogram Equalization TEM')
+myHE('../data/TEM.png',1)
+figure('Name', 'Histogram Equalization canyon')
+myHE('../data/canyon.png',0)
+figure('Name', 'Histogram Equalization church')
+myHE('../data/church.png',0)   
+
+%% Histogram Matching
+figure('Name', 'Histogram Matching Retina')
+myHM()
+
+%% Adaptive histogram Equalization
+figure('Name', 'AHE barbara')
+myAHE('../data/barbara.png',1,200)
+figure('Name', 'AHE barbara')
+myAHE('../data/barbara.png',1,5)
+figure('Name', 'AHE barbara')
+myAHE('../data/barbara.png',1,500)
+
+figure('Name', 'AHE TEM')
+myAHE('../data/TEM.png',1,150)
+figure('Name', 'AHE TEM')
 myAHE('../data/TEM.png',1,5)
-print('TEM_5','-dpng')
-figure(2)
-myAHE('../data/TEM.png',1,10)
-print('TEM_10','-dpng')
-figure(3)
-myAHE('../data/TEM.png',1,50)
-print('TEM_50','-dpng')
-figure(4)
-myAHE('../data/TEM.png',1,25)
-print('TEM_25','-dpng')
-% figure(5)
-% myAHE('../data/TEM.png',1,100)
-% print('TEM_100','-dpng')
-% figure(6)
-% myAHE('../data/TEM.png',1,150)
-% print('TEM_150','-dpng')
-% figure(7)
-% myAHE('../data/TEM.png',1,200)
-% print('TEM_200','-dpng')
-% figure(8)
-% myAHE('../data/TEM.png',1,250)
-% print('TEM_250','-dpng')
-% figure(9)
-% myAHE('../data/TEM.png',1,300)
-% print('TEM_300','-dpng')
-% figure(10)
-% myAHE('../data/TEM.png',1,350)
-% figure(11)
-% myAHE('../data/TEM.png',1,400)
+figure('Name', 'AHE TEM')
+myAHE('../data/TEM.png',1,500)
+
+figure('Name', 'canyon TEM')
+myAHE('../data/canyon.png',0,200)
+figure('Name', 'canyon TEM')
+myAHE('../data/canyon.png',0,3)
+figure('Name', 'canyon TEM')
+myAHE('../data/canyon.png',0,300)
+
+%% CLAHE
+
+figure('Name', 'CLAHE barbara')
+myCLAHE('../data/canyon.png',1, 200,0.01)
+figure('Name', 'CLAHE barbara')
+myCLAHE('../data/canyon.png',1, 200,0.005)
+
+figure('Name', 'CLAHE TEM')
+myCLAHE('../data/TEM.png',1, 100,0.01)
+figure('Name', 'CLAHE TEM')
+myCLAHE('../data/TEM.png',1, 100,0.005)
+
+figure('Name', 'CLAHE canyon')
+myCLAHE('../data/canyon.png',0,250 , 0.003)
+figure('Name', 'CLAHE canyon')
+myCLAHE('../data/canyon.png',0,250 , 0.0015)   
+
+%%
 toc;
