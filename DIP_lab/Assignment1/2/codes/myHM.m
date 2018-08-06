@@ -1,3 +1,4 @@
+function []=myHM()
 %Mask for original image(binary)
 M1=imread('../data/retinaMask.png');
 %Mask for reference image(binary)
@@ -57,10 +58,37 @@ end
 out = M(double(new_im1)+1);
 
 
+
+myNumOfColors=200;
+myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
+
+
 subplot(1,3,1);
 imshow(im1);
+title('original image')
+colormap(myColorScale);
+colormap jet;
+daspect([1 1 1]);
+axis tight;
+colorbar
+
+
 subplot(1,3,2);
 imshow(im2);
+title('Histogram-matched image')
+colormap(myColorScale);
+colormap jet;
+daspect([1 1 1]);
+axis tight;
+colorbar
+
 subplot(1,3,3);
 imshow(out);
+title('Histogram-equalised image')
+colormap(myColorScale);
+colormap jet;
+daspect([1 1 1]);
+axis tight;
+colorbar
 
+end
