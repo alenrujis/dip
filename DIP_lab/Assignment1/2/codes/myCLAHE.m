@@ -42,6 +42,7 @@ imshow(mat2gray(inImgArr)),colorbar;
 subplot(1,2,2)
 % if flag==1
 imshow(outImgArr),colorbar;
+title(num2str(N));
 % elseif flag==0
 %     imshow(outImgArrC),colorbar;
 end
