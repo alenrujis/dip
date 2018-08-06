@@ -3,11 +3,11 @@ function [] = myHE(img,flag)
 %   Detailed explanation goes here
 
     image=imread(img);
-    if flag==0
+    if flag==1
         eqhisto=MyHistogram(image)*255;
         new_image=eqhisto(image+1);
         
-        figure
+%         figure
         subplot(1,2,1);
         imshow(image);
         
@@ -28,7 +28,7 @@ function [] = myHE(img,flag)
         new_image(:,:,2) = new_image_green;
         new_image(:,:,3) = new_image_blue;
         
-        figure
+%         figure
         subplot(1,2,1);
         imshow(image);
         
