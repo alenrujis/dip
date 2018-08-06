@@ -1,0 +1,69 @@
+function valAtCentre = myCLAHEhelp(inp_array, N, clipLimit)
+%MYCLAHEHELP Summary of this function goes here
+%   Detailed explanation goes here
+
+%%inp_array=randn(100,100);
+%%N=100;
+%%clipLimit=3;
+[row,col] = find(inp_array); % find the positions of all non zero element
+unpad_array = inp_array(min(row):max(row),min(col):max(col));
+
+K=0:256;
+bin_count=histcounts(unpad_array, K);
+excess=0;
+for i=1:256
+    if bin_count(i)>clipLimit
+        excess=excess+bincount(i)-clipLimit;
+        bincount(i)=clipLimit;
+    end
+end
+excess=excess/
+for i=1:256
+   %% if bin_count(i)>clipLimit
+        excess=excess+bincount(i)-clipLimit;
+        bincount(i)=clipLimit;
+    %%end
+end
+
+
+
+
+excessPixels=0;
+z=size(unpad_array);
+for i=1:z(1)
+    
+        disp(i);
+    for j=1:z(1)
+        %%disp(j);
+        excess=unpad_array(i,j)-clipLimit;
+        if excess>0
+            excessPixels=excessPixels+excess;
+        end
+    end
+end
+
+for i=1:z(1)
+    for j=1:z(1)
+        if unpad_array(i,j)-clipLimit > 0
+            unpad_array(i,j)=clipLimit;
+        end
+    end
+end
+
+%%hist_array=histogram(unpad_array);
+%%[N,~]=histcounts(unpad_array);
+no_pixels=N*N;
+incr=excessPixels/no_pixels;
+
+for i=1:z(1)
+    for j=1:z(1)
+        unpad_array(i,j)=unpad_array(i,j)+incr;
+    end
+end
+T = MyHistogram(unpad_array);
+x = floor((N+1)/2);
+% x = cast(x,'uint8');
+valAtCentre = T(inp_array(x,x)+1);
+
+end
+
