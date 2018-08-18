@@ -83,14 +83,11 @@ for i=1:row1
             jpmax=col1;
         end
         
-        % patch((ipmin))=im1(ipmin:ipmax, jpmin:jpmax);
-
-        % for ip1=ipmin:ipmax
-        %     for jp1=jpmin:jpmax
-        %         patch((ip1-ipmin+1),(jp1-jpmin+1))=im1(ip1,jp1);
-
-        %     end
-        % end
+        for ip1=ipmin:ipmax
+            for jp1=jpmin:jpmax
+                patch((ip1-ipmin+1),(jp1-jpmin+1))=im1(ip1,jp1);
+            end
+        end
         
         for iw=iwmin:iwmax
              if((iw-p)>=1)
@@ -115,22 +112,9 @@ for i=1:row1
                 else
                     jpmax1=col1;
                 end
-                % (1:ipmax-ipmin+1, 1:jpmax-ipmin+1)
-                % (1:ipmax1-ipmin1+1,1:jpmax1-jpmin1+1)
-                patch1=im1(i-(iw-ipmin1):i+(ipmax1-iw), j-(jw-jpmin1):j+(jpmax1-jw));
-                patch2=im1(ipmin1:ipmax1,jpmin1:jpmax1);
-
-                patch3=patch1-patch2;
-
                 
-
-                % for ip2=ipmin1:ipmax1
-                %     for jp2=jpmin1:jpmax1
-                %         patch2((ip2-ipmin1+1),(jp2-jpmin2+1))=im1(ip2,jp2);
-                %     end
-                % end
-                
-
-                
+                for ip2=ipmin1:ipmax1
+                    for jp2=jpmin1:jpmax1
+                        
         
 end
