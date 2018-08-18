@@ -1,4 +1,4 @@
-function [RSMD,spg_mat] = myBilateralFiltering(filename,ss,si,i)
+function [RMSD,spg_mat] = myBilateralFiltering(filename,ss,si,i)
 %bilateral_filter Summary of this function goes here
 % input - Image, sigma-spatial, sigma-intensity
 % create corrupt image, apply bilateral filter with given sigmas, calculate
@@ -74,7 +74,7 @@ sp = sp_r + sp_c;
 sp = sqrt(sp);
 spg_mat = exp((-0.5/ss^2)*(sp.*sp))/(ss*sqrt(2*pi));
     
-RSMD = sqrt(mean(mean((new_im1 - im1).^2)));
+RMSD = sqrt(mean(mean((new_im1 - im1).^2)));
 
 myNumOfColors=200;
 myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
