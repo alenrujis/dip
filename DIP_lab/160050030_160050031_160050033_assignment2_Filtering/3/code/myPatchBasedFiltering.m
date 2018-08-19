@@ -1,4 +1,4 @@
-function [RMSD] = myPatchBasedFiltering(filename,s, i)
+function [RMSD] = myPatchBasedFiltering(filename,s, ss,i)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % outputArg1 = inputArg1;
@@ -85,9 +85,9 @@ for i=1:row1
 
         %     end
         % end
-        
-        sum_wt=0;
-        numerator=0;
+        wt = zeros(iwmax-iwmin+1,jwmax-jwmin+1);
+%         sum_wt=0;
+%         numerator=0;
         for iw=iwmin:iwmax
             if((iw-p)>=1)
                 ipmin1=iw-p;
@@ -152,12 +152,26 @@ for i=1:row1
                 % end
 
                 patch3=patch1-patch2;
-                wt=exp(-(sumsqr(patch3)/s*s));
-                sum_wt=sum_wt+wt;
-                numerator=numerator+wt*corrupt_im1(iw,jw);
+                wt(iw,jw)=exp(-(sumsqr(patch3)/s*s));
+%                 sum_wt=sum_wt+wt;
+%                 numerator()=numerator+wt*corrupt_im1(iw,jw);
              end
         end
-        new_im1(i,j)=numerator/sum_wt;
+        sp_r = jwmin:jwmax;
+        sp_r = sp_r';
+        sp_r = repmat(sp_r,1,iwmax-iwmin+1);
+        sp_c = jwmin:jwmax;
+        sp_c = repmat(sp_c,iwmax-iwmin+1,1);
+        sp_r = sp_r - i;
+        sp_c = sp_c - j;
+        sp_r = sp_r.*sp_r;
+        sp_c = sp_c.*sp_c;
+        sp = sp_r + sp_c;
+        sp = sqrt(sp);
+        sp = exp((-0.5/ss^2)*(sp.*sp));
+        n_wt = sp.*wt;
+        new_im1(i,j)=sum(sum(n_wt.*corrupt_im1(iwmin:iwmax,jwmin:jwmax)))/sum(sum(n_wt));
+        
     end
     fprintf('%d of %d \n', i,row1);
 end

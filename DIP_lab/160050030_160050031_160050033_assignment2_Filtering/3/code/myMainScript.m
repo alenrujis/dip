@@ -15,7 +15,7 @@ figure('name','1')
 myPatchBasedFiltering('../data/barbara.mat',1,1)
 %%
 figure('name','10')
-myPatchBasedFiltering('../data/barbara.mat',10,1)
+myPatchBasedFiltering('../data/barbara.mat',10,2,1)
 %%
 figure('name','100')
 myPatchBasedFiltering('../data/barbara.mat',100,1)
