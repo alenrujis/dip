@@ -1,15 +1,8 @@
-function [] = myPatchBasedFiltering(filename,ss,si, i)
+function [RMSD] = myPatchBasedFiltering(filename,s, i)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % outputArg1 = inputArg1;
 % outputArg2 = inputArg2;
-load(filename);
-if i==1
-    im1=imageOrig;
-elseif i==2
-    im1=imgCorrupt;
-end
-
 load(filename)
 % im1 = imageOrig;
 if i == 1
@@ -18,6 +11,7 @@ elseif i == 2
     im1 = imgCorrupt;
 end
 %calculate range
+im1=im1(1:2:end, 1:2:end);
 max1 = max(max(im1));
 min1 = min(min(im1));
 range1 = max1 - min1;
@@ -92,19 +86,21 @@ for i=1:row1
         %     end
         % end
         
+        sum_wt=0;
+        numerator=0;
         for iw=iwmin:iwmax
-             if((iw-p)>=1)
+            if((iw-p)>=1)
                 ipmin1=iw-p;
-             else
+            else
                 ipmin1=1;
-             end
-             if((iw+p)<=row1)
+            end
+            if((iw+p)<=row1)
                 ipmax1=iw+p;
-             else
+            else
                 ipmax1=row1;
-             end
+            end
              
-             for jw=jwmin:jwmax
+            for jw=jwmin:jwmax
                 if((jw-p)>=1)
                     jpmin1=jw-p;
                 else
@@ -117,18 +113,75 @@ for i=1:row1
                 end
                 % (1:ipmax-ipmin+1, 1:jpmax-ipmin+1)
                 % (1:ipmax1-ipmin1+1,1:jpmax1-jpmin1+1)
-                patch1=im1(i-(iw-ipmin1):i+(ipmax1-iw), j-(jw-jpmin1):j+(jpmax1-jw));
-                patch2=im1(ipmin1:ipmax1,jpmin1:jpmax1);
-
-                patch3=patch1-patch2;
-
-                
+                if ipmax-ipmin==9 && jpmax-jpmin==9
+                    %display(i);
+                    %display(iw);
+                    %display(ipmin1);
+                    %display(ipmax1);
+                    %display
+                	patch1=corrupt_im1(i-(iw-ipmin1):i+(ipmax1-iw), j-(jw-jpmin1):j+(jpmax1-jw));
+                	patch2=corrupt_im1(ipmin1:ipmax1,jpmin1:jpmax1);
+                else
+                	a=ipmax-ipmin;
+                	a1=ipmax1-ipmin1;
+                	b=jpmax-jpmin;
+                	b1=jpmax1-jpmin1;
+                    if a>a1
+                        if b>b1
+                			patch1=corrupt_im1(i-(iw-ipmin1):i+(ipmax1-iw), j-(jw-jpmin1):j+(jpmax1-jw));
+                			patch2=corrupt_im1(ipmin1:ipmax1, jpmin1:jpmax1);
+                		else
+                			patch1=corrupt_im1(i-(iw-ipmin1):i+(ipmax1-iw), jpmin:jpmax);
+                			patch2=corrupt_im1(ipmin1:ipmax1, jw-(j-jpmin):jw+(jpmax-j));
+                        end
+                    else
+                        if b>b1
+                			patch1=corrupt_im1(ipmin:ipmax,	j-(jw-jpmin1):j+(jpmax1-jw));
+                			patch2=corrupt_im1(iw-(i-ipmin):iw+(ipmax-i),jpmin1:jpmax1);
+                        else
+                			patch1=corrupt_im1(ipmin:ipmax, jpmin:jpmax);
+                			patch2=corrupt_im1(iw-(i-ipmin):iw+(ipmax-i), jw-(j-jpmin):jw+(jpmax-j));
+                        end
+                    end
+                end
 
                 % for ip2=ipmin1:ipmax1
                 %     for jp2=jpmin1:jpmax1
                 %         patch2((ip2-ipmin1+1),(jp2-jpmin2+1))=im1(ip2,jp2);
                 %     end
                 % end
+
+                patch3=patch1-patch2;
+                wt=exp(-(sumsqr(patch3)/s*s));
+                sum_wt=sum_wt+wt;
+                numerator=numerator+wt*corrupt_im1(iw,jw);
+             end
+        end
+        new_im1(i,j)=numerator/sum_wt;
+    end
+    fprintf('%d of %d \n', i,row1);
+end
+
+RMSD = sqrt(mean(mean((new_im1 - im1).^2)));
+myNumOfColors=200;
+myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
+
+
+subplot(1,3,1)
+imshow(mat2gray(im1))
+colormap(myColorScale);
+colormap gray;
+colorbar
+subplot(1,3,2)
+imshow(mat2gray(corrupt_im1))
+colormap(myColorScale);
+colormap gray;
+colorbar
+subplot(1,3,3)
+imshow(mat2gray(new_im1))
+colormap(myColorScale);
+colormap gray;
+colorbar
                 
 
                 
