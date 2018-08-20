@@ -1,8 +1,12 @@
-function [RMSD] = myPatchBasedFiltering(filename,s, ss,i)
+% function [RMSD] = myPatchBasedFiltering(filename,s, ss,i)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % outputArg1 = inputArg1;
 % outputArg2 = inputArg2;
+filename='../data/barbara.mat';
+i=1;
+s=1;
+ss=2;
 load(filename)
 % im1 = imageOrig;
 if i == 1
@@ -11,7 +15,7 @@ elseif i == 2
     im1 = imgCorrupt;
 end
 %calculate range
-im1=im1(1:2:end, 1:2:end);
+im1=im1(1:8:end, 1:8:end);
 max1 = max(max(im1));
 min1 = min(min(im1));
 range1 = max1 - min1;
@@ -85,7 +89,23 @@ for i=1:row1
 
         %     end
         % end
-        wt = zeros(iwmax-iwmin+1,jwmax-jwmin+1);
+        wt = zeros(windows,windows);
+        spacial=zeros(windows,windows);
+        window_image=zeros(windows,windows);
+                	sp_r = 1:row1;
+        			sp_r = sp_r';
+        			sp_r = repmat(sp_r,1,col1);
+        			sp_c = 1:col1;
+        			sp_c = repmat(sp_c,row1,1);
+        			sp_r = sp_r - i;
+        			sp_c = sp_c - j;
+        			sp_r = sp_r.*sp_r;
+        			sp_c = sp_c.*sp_c;
+        			sp = sp_r + sp_c;
+        			% sp = sqrt(sp);
+
+        % lambda=jwmax-jwmin+1;
+
 %         sum_wt=0;
 %         numerator=0;
         for iw=iwmin:iwmax
@@ -126,21 +146,28 @@ for i=1:row1
                 	a1=ipmax1-ipmin1;
                 	b=jpmax-jpmin;
                 	b1=jpmax1-jpmin1;
+
+
+
                     if a>a1
                         if b>b1
                 			patch1=corrupt_im1(i-(iw-ipmin1):i+(ipmax1-iw), j-(jw-jpmin1):j+(jpmax1-jw));
                 			patch2=corrupt_im1(ipmin1:ipmax1, jpmin1:jpmax1);
+                			c=sp(i-(iw-ipmin1):i+(ipmax1-iw), j-(jw-jpmin1):j+(jpmax1-jw));
                 		else
                 			patch1=corrupt_im1(i-(iw-ipmin1):i+(ipmax1-iw), jpmin:jpmax);
                 			patch2=corrupt_im1(ipmin1:ipmax1, jw-(j-jpmin):jw+(jpmax-j));
+                			c=sp(i-(iw-ipmin1):i+(ipmax1-iw), jpmin:jpmax);
                         end
                     else
                         if b>b1
                 			patch1=corrupt_im1(ipmin:ipmax,	j-(jw-jpmin1):j+(jpmax1-jw));
                 			patch2=corrupt_im1(iw-(i-ipmin):iw+(ipmax-i),jpmin1:jpmax1);
+                			c=sp(ipmin:ipmax,j-(jw-jpmin1):j+(jpmax1-jw));
                         else
                 			patch1=corrupt_im1(ipmin:ipmax, jpmin:jpmax);
                 			patch2=corrupt_im1(iw-(i-ipmin):iw+(ipmax-i), jw-(j-jpmin):jw+(jpmax-j));
+                			c=sp(ipmin:ipmax, jpmin:jpmax);
                         end
                     end
                 end
@@ -151,26 +178,28 @@ for i=1:row1
                 %     end
                 % end
 
-                patch3=patch1-patch2;
-                wt(iw,jw)=exp(-(sumsqr(patch3)/s*s));
+                patch3=patch1-patch2;	
+                c=(1/(sqrt(2*pi)*ss))*exp((-1/(2*s*s))*c);
+
+
+                wt(iw-iwmin+1,jw-jwmin+1)=exp(-(sumsqr(patch3.*c)/s*s));
+           		% spacial(iw-iwmin+1, jw-jwmin+1)=(i-iw)*(i-iw)+(j-jw)*(j-jw);
+           		window_image(iw-iwmin+1, jw-jwmin+1)=corrupt_im1(iw, jw);
 %                 sum_wt=sum_wt+wt;
 %                 numerator()=numerator+wt*corrupt_im1(iw,jw);
              end
         end
-        sp_r = jwmin:jwmax;
-        sp_r = sp_r';
-        sp_r = repmat(sp_r,1,iwmax-iwmin+1);
-        sp_c = jwmin:jwmax;
-        sp_c = repmat(sp_c,iwmax-iwmin+1,1);
-        sp_r = sp_r - i;
-        sp_c = sp_c - j;
-        sp_r = sp_r.*sp_r;
-        sp_c = sp_c.*sp_c;
-        sp = sp_r + sp_c;
-        sp = sqrt(sp);
-        sp = exp((-0.5/ss^2)*(sp.*sp));
-        n_wt = sp.*wt;
-        new_im1(i,j)=sum(sum(n_wt.*corrupt_im1(iwmin:iwmax,jwmin:jwmax)))/sum(sum(n_wt));
+        % sp = exp((spacial*(-0.5))/(ss*ss));
+
+        n_wt=exp((-1/s*s)*wt);
+%         fprintf()
+%         save('special','sp');
+%         save('weights','wt');
+        % n_wt = sp.*wt;
+        
+
+%         n_wt=wt;
+        new_im1(i,j)=sum(sum(window_image.*n_wt))/sum(sum(n_wt));
         
     end
     fprintf('%d of %d \n', i,row1);
@@ -200,4 +229,4 @@ colorbar
 
                 
         
-end
+% end
