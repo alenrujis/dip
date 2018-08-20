@@ -1,4 +1,4 @@
-function [RMSD,spg_mat] = myBilateralFiltering(filename,ss,si,i)
+function [RMSD,spg_mat] = myBilateralFiltering(im1,corrupt_im1,ss,si)
 %bilateral_filter Summary of this function goes here
 % input - Image, sigma-spatial, sigma-intensity
 % create corrupt image, apply bilateral filter with given sigmas, calculate
@@ -8,23 +8,8 @@ function [RMSD,spg_mat] = myBilateralFiltering(filename,ss,si,i)
 % si = 1;
 %load image
 
-load(filename)
-% im1 = imageOrig;
-if i == 1
-   im1 = imageOrig;
-elseif i == 2
-    im1 = imgCorrupt;
-end
-%calculate range
-max1 = max(max(im1));
-min1 = min(min(im1));
-range1 = max1 - min1;
-
 %size
 [row1,col1] = size(im1);
-
-%corrupting image with gaussian noise with std dev = 5% of range
-corrupt_im1 = normrnd(im1,0.05*range1);
 
 %initialize new image
 new_im1 = zeros(row1,col1);
@@ -75,6 +60,7 @@ sp = sqrt(sp);
 spg_mat = exp((-0.5/ss^2)*(sp.*sp))/(ss*sqrt(2*pi));
     
 RMSD = sqrt(mean(mean((new_im1 - im1).^2)));
+% RMSD = 0;
 
 myNumOfColors=200;
 myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];

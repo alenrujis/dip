@@ -2,13 +2,47 @@
 
 tic;
 %% Your code here
+
+%Loading barbara original and corrupt it
+load('../data/barbara.mat')
+im_a = imageOrig;
+
+max1 = max(max(im_a));
+min1 = min(min(im_a));
+range1 = max1 - min1;
+curr_a = normrnd(im_a,0.05*range1);
+
+%loading original grass and noisy
+im_b = imread('../data/grass.png');
+im_b = double(im_b)/256;
+load('../data/grassNoisy.mat')
+curr_b = imgCorrupt;
+
+%loading original honeycomb and noisy
+im_c = imread('../data/honeyCombReal.png');
+im_c = double(im_c)/256;
+load('../data/honeyCombReal_Noisy.mat')
+curr_c = imgCorrupt;
+
 figure(1)
-[a1,mat_fltr] = myBilateralFiltering('../data/grassNoisy.mat',2,15,2);
+[a1,sp_1] = myBilateralFiltering(im_a,curr_a,1.5,9.5);
+
 figure(2)
-% [a2,~] = myBilateralFiltering('../data/grassNoisy.mat',2,12,2);
-% figure(3)
-% [a3,~] = myBilateralFiltering('../data/grassNoisy.mat',2,13,2);
+[a2,sp_2] = myBilateralFiltering(im_b,curr_b,1,0.14);
+
+
+figure(3)
+[a3,sp_3] = myBilateralFiltering(im_c,curr_c,1,0.13);
+
 figure(4)
-imshow(mat_fltr)
+imshow(sp_1)
+colorbar
+
+figure(5)
+imshow(sp_2)
+colorbar
+
+figure(6)
+imshow(sp_3)
 colorbar
 toc;
