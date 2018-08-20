@@ -26,13 +26,30 @@ curr_c = imgCorrupt;
 
 figure(1)
 [a1,sp_1] = myBilateralFiltering(im_a,curr_a,1.5,9.5);
-
+%%
+% [a1_1,~] = myBilateralFiltering(im_a,curr_a,1.5*0.9,9.5);
+% [a1_2,~] = myBilateralFiltering(im_a,curr_a,1.5*1.1,9.5);
+% [a1_3,~] = myBilateralFiltering(im_a,curr_a,1.5,9.5*0.9);
+% [a1_4,~] = myBilateralFiltering(im_a,curr_a,1.5,9.5*1.1);
+%%
 figure(2)
-[a2,sp_2] = myBilateralFiltering(im_b,curr_b,1,0.14);
-
+[a2,sp_2] = myBilateralFiltering(im_b,curr_b,0.9,0.14);
+%%
+% [a2_1,~] = myBilateralFiltering(im_b,curr_b,0.9*0.9,0.14);
+% [a2_2,~] = myBilateralFiltering(im_b,curr_b,0.9*1.1,0.14);
+% [a2_3,~] = myBilateralFiltering(im_b,curr_b,0.9,0.14*0.9);
+% [a2_4,~] = myBilateralFiltering(im_b,curr_b,0.9,0.14*1.1);
+%%
 
 figure(3)
 [a3,sp_3] = myBilateralFiltering(im_c,curr_c,1,0.13);
+%%
+% [a3_1,~] = myBilateralFiltering(im_c,curr_c,1*0.9,0.13);
+% [a3_2,~] = myBilateralFiltering(im_c,curr_c,1*1.1,0.13);
+% [a3_3,~] = myBilateralFiltering(im_c,curr_c,1,0.13*0.9);
+% [a3_4,~] = myBilateralFiltering(im_c,curr_c,1,0.13*1.1);
+
+%%
 
 figure(4)
 imshow(sp_1)
