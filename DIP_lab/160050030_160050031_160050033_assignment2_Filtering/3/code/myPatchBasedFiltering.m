@@ -1,30 +1,29 @@
-% function [RMSD] = myPatchBasedFiltering(filename,s, ss,i)
+function [RMSD,spg_mat] = myPatchBasedFiltering(im1,corrupt_im1,s,ss)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 % outputArg1 = inputArg1;
 % outputArg2 = inputArg2;
-filename='../data/barbara.mat';
-i=1;
-s=1;
-ss=2;
-load(filename)
-% im1 = imageOrig;
-if i == 1
-   im1 = imageOrig;
-elseif i == 2
-    im1 = imgCorrupt;
-end
-%calculate range
-im1=im1(1:8:end, 1:8:end);
-max1 = max(max(im1));
-min1 = min(min(im1));
-range1 = max1 - min1;
-
+% filename='../data/barbara.mat';
+% i=1;
+% s=2;
+% ss=4;
+% load(filename)
+% % im1 = imageOrig;
+% if i == 1
+%    im1 = imageOrig;
+% elseif i == 2
+%     im1 = imgCorrupt;
+% end
+% %calculate range
+% % im1=im1(1:2:end, 1:2:end);
+% max1 = max(max(im1));
+% min1 = min(min(im1));
+% range1 = max1 - min1;
 %size
 [row1,col1] = size(im1);
 
 %corrupting image with gaussian noise with std dev = 5% of range
-corrupt_im1 = normrnd(im1,0.05*range1);
+% corrupt_im1 = normrnd(im1,0.05*range1);
 
 %initialize new image
 new_im1 = zeros(row1,col1);
@@ -179,11 +178,11 @@ for i=1:row1
                 % end
 
                 patch3=patch1-patch2;	
-                c=(1/(sqrt(2*pi)*ss))*exp((-1/(2*s*s))*c);
+%                 c=(1/(sqrt(2*pi)*ss))*exp((-1/(2*ss*ss))*c);
 
 
-                wt(iw-iwmin+1,jw-jwmin+1)=exp(-(sumsqr(patch3.*c)/s*s));
-           		% spacial(iw-iwmin+1, jw-jwmin+1)=(i-iw)*(i-iw)+(j-jw)*(j-jw);
+                wt(iw-iwmin+1,jw-jwmin+1)=exp(-(sumsqr(patch3)/s*s));
+                spacial(iw-iwmin+1, jw-jwmin+1)=(i-iw)*(i-iw)+(j-jw)*(j-jw);
            		window_image(iw-iwmin+1, jw-jwmin+1)=corrupt_im1(iw, jw);
 %                 sum_wt=sum_wt+wt;
 %                 numerator()=numerator+wt*corrupt_im1(iw,jw);
@@ -191,7 +190,7 @@ for i=1:row1
         end
         % sp = exp((spacial*(-0.5))/(ss*ss));
 
-        n_wt=exp((-1/s*s)*wt);
+         n_wt=exp((-1/ss*ss)*spacial)*wt;
 %         fprintf()
 %         save('special','sp');
 %         save('weights','wt');
@@ -205,7 +204,23 @@ for i=1:row1
     fprintf('%d of %d \n', i,row1);
 end
 
+%printing gaussian spatial mask
+l = 2*floor(3*ss) + 1;
+sp_r = 1:l;
+sp_r = sp_r';
+sp_r = repmat(sp_r,1,l);
+sp_c = 1:l;
+sp_c = repmat(sp_c,l,1);
+sp_r = sp_r - (floor(3*ss) + 1);
+sp_c = sp_c - (floor(3*ss) + 1);
+sp_r = sp_r.*sp_r;
+sp_c = sp_c.*sp_c;
+sp = sp_r + sp_c;
+sp = sqrt(sp);
+spg_mat = exp((-0.5/ss^2)*(sp.*sp))/(ss*sqrt(2*pi));
+
 RMSD = sqrt(mean(mean((new_im1 - im1).^2)));
+display(RMSD)
 myNumOfColors=200;
 myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
 
@@ -229,4 +244,4 @@ colorbar
 
                 
         
-% end
+end
