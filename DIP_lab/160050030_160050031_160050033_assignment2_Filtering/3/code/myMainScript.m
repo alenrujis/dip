@@ -10,7 +10,7 @@ max1 = max(max(im_a));
 min1 = min(min(im_a));
 range1 = max1 - min1;
 curr_a = normrnd(im_a,0.05*range1);
-curr_a = curr_a(1:2:end,1:2:end);
+%curr_a = curr_a(1:2:end,1:2:end);
 
 %loading original grass and noisy
 im_b = imread('../data/grass.png');
