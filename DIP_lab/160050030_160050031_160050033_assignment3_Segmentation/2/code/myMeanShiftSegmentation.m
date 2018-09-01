@@ -1,10 +1,10 @@
-% function [] = myMeanShiftSegmentation(filename,hr,hs,k)
+function [] = myMeanShiftSegmentation(filename,hr,hs,nitr,nnbr)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 %%%%%%%%Test block%%%%%%%%%%%%%
-filename = '../data/baboonColor.png';
- hr = 80;
- hs = 40;
+% filename = '../data/baboonColor.png';
+%  hr = 250;
+%  hs = 100;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % read image
 im= imread(filename);
@@ -16,9 +16,9 @@ im=imresize(im,.5);
 
 
 [row,col,~] = size(im);
-upImg = zeros(row,col,3);
+% upImg = zeros(row,col,3);
 % selecting n nearest neighbours
-n = 75;
+% n = 75;
 
 % gradient steps
 % tau = 3;
@@ -26,52 +26,33 @@ n = 75;
 wait = waitbar(0,'Wait');
 
 %%%
-    feature=zeros(5,row*col);
+feature=zeros(5,row*col);
 
-    for i = 1:row
-        for j=1:col
-            feature(:,i*col - col +j)=[i;j;im(i,j,1); im(i,j, 2); im(i,j,3);];
-        end
+for i = 1:row
+    for j=1:col
+        feature(:,i*col - col +j)=[i;j;im(i,j,1); im(i,j, 2); im(i,j,3);];
     end
-    X=feature';
-    % 3D matrix to 2D matrix
-%     X = reshape(feature,[],3);
-    % substep for finding Knn
-    X = cast(X,'double');
-    X(:, 3:5) = X(:, 3:5)/(hr);
-    X(:, 1:2) = X(:, 1:2)/(hs);
+end
+X=feature';
+X = cast(X,'double');
+X(:, 3:5) = X(:, 3:5)/(hr);
+X(:, 1:2) = X(:, 1:2)/(hs);
+
    	
-for z = 1:5
+for z = 1:nitr
+%     X(:, 3:5) = X(:, 3:5)/(hr);
+%     X(:, 1:2) = X(:, 1:2)/(hs);
     Mdl = KDTreeSearcher(X);
-    [idx,D] = knnsearch(Mdl,X,'K',n); % finding indexes of k nearest nbrs to (i,j) pixel by color
-    weight = exp(-(D.^2));
-    % upImg=zeros(row,col,3);
-    for i = 1:row
-        for j = 1:col
-            p=i*col-col+j;
-            res=weight(p,:);
-            suma=sum(res);
-%%%%%%%%%%%%%%%%%%%%%%%yeh bhiu dekh%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            % res=res';
-            % res_mat=[res,res,res];
-            % X(p,3:5)=sum(res_mat.*X(idx(p,:),3:5))/suma;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%            
-            
-%             fun = @(x,y) appKernal(x,i,j,y,hs,hr);
-%             res = arrayfun(fun,idx,D); % each element in res is K(space)*K(color) for each nearest nbr to (i,j)
-%              fun2 = @(x,y) X(x*col-col+j,3:5)*[y,y,y];
-%              smth = arrayfun(fun2,idx,res,'un',0);
-%         meanShift = sum(smth)/sum(res) - im(i,j,:);
-            fun = @(x,y) X(x,3:5)*y;
-            temp= arrayfun(fun,idx(p,:),res,'un',0);
-            X(p,3:5) = sum(reshape(cell2mat(temp),3,[]),2)/suma;
-%             upImg(i,j,1) = rgb(1);
-%             upImg(i,j,2) = rgb(2);
-%             upImg(i,j,3) = rgb(3);
-        end
-    end
-    % im = upImg;
-    waitbar(z/20,wait,'chalne do');
+    [idx,D] = knnsearch(Mdl,X,'K',nnbr); % finding indexes of k nearest nbrs to (i,j) pixel by color
+    res = exp(-(D.^2));            
+    suma=sum(res,2);
+%     X(:, 3:5) = X(:, 3:5)*(hr);
+%     X(:, 1:2) = X(:, 1:2)*(hs);
+    X(:,3) = sum(res.*reshape(X(idx(:,:),3),[],nnbr),2)./suma;
+    X(:,4) = sum(res.*reshape(X(idx(:,:),4),[],nnbr),2)./suma;
+    X(:,5) = sum(res.*reshape(X(idx(:,:),5),[],nnbr),2)./suma;
+
+    waitbar(z/nitr,wait,'Chill bro, we are still computing..');
 end
 close(wait)
 final_im = zeros(row,col,3);
@@ -81,7 +62,17 @@ for i = 1:row
     end
 end
 %%
-figure(1);
+%figures
+myNumOfColors=200;
+myColorScale = [(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)',(0:1/(myNumOfColors-1):1)'];
+
+subplot(1,2,1);
+imshow(imread(filename));
+colormap(myColorScale);
+subplot(1,2,2);
 imshow(final_im);
-% end
+title(['hr=' num2str(hr) 'hs=' num2str(hs)] )
+colormap(myColorScale);
+end
+
 
