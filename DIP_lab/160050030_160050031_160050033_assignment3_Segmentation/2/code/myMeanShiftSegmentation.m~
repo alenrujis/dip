@@ -1,10 +1,10 @@
-function [] = myMeanShiftSegmentation(filename,hr,hs,k)
+% function [] = myMeanShiftSegmentation(filename,hr,hs,k)
 %UNTITLED4 Summary of this function goes here
 %   Detailed explanation goes here
 %%%%%%%%Test block%%%%%%%%%%%%%
-% filename = '../data/baboonColor.png';
-% hr = 10;
-% hs = 10;
+ filename = '../data/baboonColor.png';
+hr = 10;
+ hs = 10;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % read image
 im= imread(filename);
@@ -29,9 +29,9 @@ n = 100;
 
 %%
 
-wait = waitbar(0,'Wait');
+% wait = waitbar(0,'Wait');
 
-for z = 1:k
+% for z = 1:k
 %%%
     feature=zeros(5,row*col);
 
@@ -45,7 +45,7 @@ for z = 1:k
 %     X = reshape(feature,[],3);
     % substep for finding Knn
     X = cast(X,'double');
-    X(:, 3:5) = X(:, 3:5)/(hr);
+    X(:, 3:5) = X(:, 3:5)*255/(hr);
     X(:, 1:2) = X(:, 1:2)/(hs);
    	Mdl = KDTreeSearcher(X);
     
@@ -62,7 +62,7 @@ for z = 1:k
 %              fun2 = @(x,y) X(x*col-col+j,3:5)*[y,y,y];
 %              smth = arrayfun(fun2,idx,res,'un',0);
 %         meanShift = sum(smth)/sum(res) - im(i,j,:);
-             fun = @(x,y) X(x,3:5)*y*hr;
+             fun = @(x,y) X(x,3:5)*y;
              temp= arrayfun(fun,idx(p,:),res,'un',0);
 
             rgb = sum(reshape(cell2mat(temp),3,[]))/sum(res);
@@ -72,11 +72,11 @@ for z = 1:k
         end
     end
     im = upImg;
-    waitbar(z/20,wait,'chalne do');
-end
-close(wait)
+% %     waitbar(z/20,wait,'chalne do');
+% end
+% close(wait)
 %%
 figure(1);
 imshow(im);
-end
+% end
 
