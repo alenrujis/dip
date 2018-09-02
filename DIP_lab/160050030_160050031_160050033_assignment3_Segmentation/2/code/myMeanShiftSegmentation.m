@@ -61,6 +61,7 @@ for i = 1:row
         final_im(i,j,:) = X(i*col-col+j,3:5);
     end
 end
+
 %%
 %figures
 myNumOfColors=200;
