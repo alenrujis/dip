@@ -1,0 +1,25 @@
+A = [1 2 3;3 5 7;7 5 9;8 9 5];
+
+[ V1,S1] = eig(a'*a);
+
+[k p] = size(a);
+[m n] = size(V1);
+[o p] = size(S1);
+
+
+Unew = zeros(k,p);    
+for i = 1:1:m
+
+        Unew(:,i) = (a*V1(:,n))/sqrt(S1(o,p)); 
+
+        o = o-1; p = p-1;
+        n = n-1;
+
+end
+
+
+S = S1.^(.5);
+S=fliplr(fliplr(S)');
+
+V = fliplr(V1);    
+Enew=Unew*S*V';
