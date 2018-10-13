@@ -35,18 +35,69 @@ B =zeros(192*168,38*24);
   A=A-a_bar;
   B=B-a_bar;
   [~,b]=size(B);
-  L=A'*A;
-  [W,T]=eig(L);
-  V=A*W;
-  V=normc(V);
+%   L=A'*A;
+%   [W,T]=eig(L);
+ [W,S,W1]=svds(A,1000);
+ % V=A*W;
+%   V=normc(V);
   [~,sz]=size(K);
   counter1=zeros(1,sz);
       counter2=zeros(1,sz);
 
   %   k=20;
-for j= 1:sz
-  Vk=V(:,n-K(j)+1:n);
-  Vk2=V(:,n-K(j)-2:n-3);
+  
+for j= 1:3
+%     [W,S,W1]=svds(A,K(j));
+%   V=A*W;
+%   V=normc(V);
+%     
+    [~,nz]=size(W);
+  Vk=W(:,1:K(j));
+  
+  Vk2=W(:,1:K(j));
+  alphaA=Vk'*A;
+  alphaB=Vk'*B;
+  
+  alphaA2=Vk2'*A;
+  alphaB2=Vk2'*B;
+  
+  
+  min = knnsearch(alphaA', alphaB');
+        for i=1:b
+%             disp(min(j));
+            if(ceil(i/20)==ceil(min(i)/40)) 
+                counter1(j)=counter1(j)+1;
+            end
+        end
+  
+min2 = knnsearch(alphaA2', alphaB2');
+        for i=1:b
+%             disp(min(j));
+            if(ceil(i/20)==ceil(min2(i)/40)) 
+                counter2(j)=counter2(j)+1;
+            end
+        end
+   
+        
+        
+  
+end  
+  
+  
+  
+  
+  
+  
+  
+for j= 4:sz
+%     [W,S,W1]=svds(A,K(j));
+%   V=A*W;
+%   V=normc(V);
+%     
+    [~,nz]=size(W);
+  Vk=W(:,1:K(j));
+  
+  Vk2=W(:,4:end);
   alphaA=Vk'*A;
   alphaB=Vk'*B;
   
