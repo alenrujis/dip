@@ -77,6 +77,29 @@ end
   counter1=counter1./b;
   counter2=counter2./b;
   
+  figure;
+  plot(K,counter1);
+  title('croppedyale')
+xlabel('eigencoefficientwithoutdropping') 
+ylabel('recognitionrate') 
+
+
+figure;
+  plot(K,counter2);
+  title('croppedyale')
+xlabel('eigencoefficientwithdropping') 
+ylabel('recognitionrate') 
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
  
 toc;

@@ -72,7 +72,11 @@ for j= 1:sz
 end
   counter=counter./b;
   
-  
-  
+  figure;
+  plot(K,counter);
+  title('att_faces')
+xlabel('eigencoefficient') 
+ylabel('recognitionrate') 
+
  
 toc;
