@@ -97,7 +97,7 @@ for j= 4:sz
     [~,nz]=size(W);
   Vk=W(:,1:K(j));
   
-  Vk2=W(:,4:end);
+  Vk2=W(:,4:K(j));
   alphaA=Vk'*A;
   alphaB=Vk'*B;
   
