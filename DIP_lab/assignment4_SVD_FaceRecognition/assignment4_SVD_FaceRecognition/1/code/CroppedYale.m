@@ -18,8 +18,8 @@ B =zeros(192*168,38*24);
        A(:,40*(i-3)+j-2)= reshape(imread(l(j).name),192*168,1);         
     end  
     
-    for j=43:e
-    B(:,(e-43+1)*(i-3)+j-42)= reshape(imread(l(j).name),192*168,1);
+    for j=43:62
+    B(:,20*(i-3)+j-42)= reshape(imread(l(j).name),192*168,1);
     end    
     
 %         disp(l(1).folder);
@@ -57,7 +57,7 @@ for j= 1:sz
   min = knnsearch(alphaA', alphaB');
         for i=1:b
 %             disp(min(j));
-            if(ceil(i/24)==ceil(min(i)/40)) 
+            if(ceil(i/20)==ceil(min(i)/40)) 
                 counter1(j)=counter1(j)+1;
             end
         end
@@ -65,7 +65,7 @@ for j= 1:sz
 min2 = knnsearch(alphaA2', alphaB2');
         for i=1:b
 %             disp(min(j));
-            if(ceil(i/24)==ceil(min2(i)/40)) 
+            if(ceil(i/20)==ceil(min2(i)/40)) 
                 counter2(j)=counter2(j)+1;
             end
         end
