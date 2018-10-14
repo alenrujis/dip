@@ -5,7 +5,7 @@ tic;
 p='../../../../../../CroppedYale';
 a=dir(p);
 A =zeros(192*168,38*40); 
-B =zeros(192*168,38*24); 
+B =zeros(192*168,38*20); 
  
   for i=3:40
         im = cd(strcat(p ,'/', a(i).name));
@@ -24,13 +24,15 @@ B =zeros(192*168,38*24);
  
  n=38*40;
  K=[1, 2, 3, 5, 10, 15, 20, 30, 50, 60, 65, 75, 100, 200, 300, 500, 1000];
-
+% disp(size(B));
  a_bar=sum(A,2)./n;
  b_bar=sum(B,2)./n;
   A=A-a_bar;
   B=B-a_bar;
   [~,b]=size(B);
+  
  [W,S,W1]=svds(A,1000);
+ 
   [~,sz]=size(K);
   counter1=zeros(1,sz);
       counter2=zeros(1,sz);
