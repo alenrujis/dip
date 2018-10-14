@@ -3,9 +3,7 @@
 tic;
 %% Your code here
 p='../../att_faces';
-% p = uigetdir();
 a=dir('../../att_faces');
-% a=dir(p);
 A =zeros(92*112,32*6); 
 B =zeros(92*112,32*4); 
  
@@ -21,8 +19,7 @@ B =zeros(92*112,32*4);
     B(:,4*(i-4)+j-8)= reshape(imread(l(j).name),92*112,1);
     end    
     
-%         disp(l(1).folder);
-% disp(im);
+
      cd(im);
   end    
  
@@ -40,7 +37,6 @@ B =zeros(92*112,32*4);
   V=normc(V);
   [~,sz]=size(K);
   counter=zeros(1,sz);
-%   k=20;
 for j= 1:sz
   Vk=V(:,n-K(j)+1:n);
   alphaA=Vk'*A;
@@ -48,7 +44,6 @@ for j= 1:sz
   
   min = knnsearch(alphaA', alphaB');
         for i=1:b
-%             disp(min(j));
             if(ceil(min(i)/6)==ceil(i/4)) 
                 counter(j)=counter(j)+1;
             end
@@ -56,19 +51,6 @@ for j= 1:sz
   
  
   
-%   for i=1:128
-%     probe=alphaB(i);
-%     temp = alphaA-probe;
-%     temp2=temp.^2;
-%     temp3=sum(temp2,1);
-% %     temp3=temp2.^(2);
-%     [M,min_i]=min(temp3);
-% %     disp(min_i);
-%     if(ceil(i/4) == ceil(min_i/6))
-%         counter(j)=counter(j)+1;
-% %         disp(counter(j));
-%     end   
-%   end    
 end
   counter=counter./b;
   

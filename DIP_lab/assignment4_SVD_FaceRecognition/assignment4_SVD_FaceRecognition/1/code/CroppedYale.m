@@ -3,9 +3,7 @@
 tic;
 %% Your code here
 p='../../../../../../CroppedYale';
-% p = uigetdir();
 a=dir(p);
-% a=dir(p);
 A =zeros(192*168,38*40); 
 B =zeros(192*168,38*24); 
  
@@ -13,7 +11,6 @@ B =zeros(192*168,38*24);
         im = cd(strcat(p ,'/', a(i).name));
          l = dir('./');
         [e,~]=size(l);
-%         disp(e);
     for j=3:42
        A(:,40*(i-3)+j-2)= reshape(imread(l(j).name),192*168,1);         
     end  
@@ -22,8 +19,6 @@ B =zeros(192*168,38*24);
     B(:,20*(i-3)+j-42)= reshape(imread(l(j).name),192*168,1);
     end    
     
-%         disp(l(1).folder);
-% disp(im);
      cd(im);
   end    
  
@@ -35,22 +30,13 @@ B =zeros(192*168,38*24);
   A=A-a_bar;
   B=B-a_bar;
   [~,b]=size(B);
-%   L=A'*A;
-%   [W,T]=eig(L);
  [W,S,W1]=svds(A,1000);
- % V=A*W;
-%   V=normc(V);
   [~,sz]=size(K);
   counter1=zeros(1,sz);
       counter2=zeros(1,sz);
 
-  %   k=20;
   
 for j= 1:3
-%     [W,S,W1]=svds(A,K(j));
-%   V=A*W;
-%   V=normc(V);
-%     
     [~,nz]=size(W);
   Vk=W(:,1:K(j));
   
@@ -64,7 +50,6 @@ for j= 1:3
   
   min = knnsearch(alphaA', alphaB');
         for i=1:b
-%             disp(min(j));
             if(ceil(i/20)==ceil(min(i)/40)) 
                 counter1(j)=counter1(j)+1;
             end
@@ -72,7 +57,6 @@ for j= 1:3
   
 min2 = knnsearch(alphaA2', alphaB2');
         for i=1:b
-%             disp(min(j));
             if(ceil(i/20)==ceil(min2(i)/40)) 
                 counter2(j)=counter2(j)+1;
             end
@@ -90,10 +74,6 @@ end
   
   
 for j= 4:sz
-%     [W,S,W1]=svds(A,K(j));
-%   V=A*W;
-%   V=normc(V);
-%     
     [~,nz]=size(W);
   Vk=W(:,1:K(j));
   
@@ -107,7 +87,6 @@ for j= 4:sz
   
   min = knnsearch(alphaA', alphaB');
         for i=1:b
-%             disp(min(j));
             if(ceil(i/20)==ceil(min(i)/40)) 
                 counter1(j)=counter1(j)+1;
             end
@@ -115,7 +94,6 @@ for j= 4:sz
   
 min2 = knnsearch(alphaA2', alphaB2');
         for i=1:b
-%             disp(min(j));
             if(ceil(i/20)==ceil(min2(i)/40)) 
                 counter2(j)=counter2(j)+1;
             end
