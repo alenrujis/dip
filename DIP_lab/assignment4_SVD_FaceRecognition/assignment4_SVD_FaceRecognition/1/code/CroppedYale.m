@@ -110,15 +110,15 @@ end
   
   figure;
   plot(K,counter1);
-  title('croppedyale')
-xlabel('eigencoefficientwithoutdropping') 
+  title('croppedyale-without-dropping')
+xlabel('eigencoefficient') 
 ylabel('recognitionrate') 
 
 
 figure;
   plot(K,counter2);
-  title('croppedyale')
-xlabel('eigencoefficientwithdropping') 
+  title('croppedyale-with-dropping')
+xlabel('eigencoefficient') 
 ylabel('recognitionrate') 
 
   

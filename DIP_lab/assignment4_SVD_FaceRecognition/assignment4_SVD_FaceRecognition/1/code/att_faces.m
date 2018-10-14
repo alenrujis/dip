@@ -37,6 +37,11 @@ B =zeros(92*112,32*4);
   V=normc(V);
   [~,sz]=size(K);
   counter=zeros(1,sz);
+  counter1=zeros(1,sz);
+  
+   [W1,S,W2]=svds(A,170);
+
+  
 for j= 1:sz
   Vk=V(:,n-K(j)+1:n);
   alphaA=Vk'*A;
@@ -52,13 +57,38 @@ for j= 1:sz
  
   
 end
+
+for j= 1:sz
+  Vksvd=W1(:,1:K(j));
+  alphaAsvd=Vksvd'*A;
+  alphaBsvd=Vksvd'*B;
+  
+  minsvd = knnsearch(alphaAsvd', alphaBsvd');
+        for i=1:b
+            if(ceil(minsvd(i)/6)==ceil(i/4)) 
+                counter1(j)=counter1(j)+1;
+            end
+        end
+  
+ 
+  
+end
+
+
   counter=counter./b;
+counter1=counter1./b;
   
   figure;
   plot(K,counter);
-  title('att_faces')
+  title('att-faces-with-eig')
 xlabel('eigencoefficient') 
 ylabel('recognitionrate') 
 
- 
+figure;
+  plot(K,counter1);
+  title('att-faces-with-svd')
+xlabel('eigencoefficient') 
+ylabel('recognitionrate') 
+
+
 toc;
