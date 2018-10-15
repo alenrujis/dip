@@ -5,9 +5,11 @@
 [m n] = size(A);
     S = zeros(m,n);
     [m1, n1] = size(S1);
+[d,ind] = sort(diag(S1));
+S2 = S1(ind,ind);
 
 for i = 1:min(m,n)
-        S(i,i) = sqrt(S1(m1-i+1,m1-i+1));
+        S(i,i) = sqrt(S2(m1-i+1,m1-i+1));
 end
 V = fliplr(V1);
 
