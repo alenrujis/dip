@@ -1,6 +1,6 @@
-% function myEigenFaces(Kvec)
-    Kvec=[2, 10, 20, 50, 75, 100, 125, 150, 175];
-    image_data=('../../CroppedYale/');
+function myEigenFacesReconstruction(Kvec, directory)
+    % Kvec=[2, 10, 20, 50, 75, 100, 125, 150, 175];
+    image_data=directory;
     dir_list=dir(image_data);
     sub_dir=38;
     n_train=40;
@@ -50,8 +50,8 @@
         Vi=VX(:,n-i+1:n); %top k eignefaces
         test_im=X(:,1); 
         % test_im=test_im-mean_X; since already mean deducted
-        eigenCoeff = Vi'*test_im;   %%kyun??????????
-        im=mean_X+Vi*eigenCoeff; %%kyun kia??????????????????????????????????????????/
+        eigenCoeff = Vi'*test_im; 
+        im=mean_X+Vi*eigenCoeff; 
         figure(l);
         l=l+1;
         subplot(1,2,1);
@@ -63,4 +63,4 @@
     end 
 
     
-% end
+end
