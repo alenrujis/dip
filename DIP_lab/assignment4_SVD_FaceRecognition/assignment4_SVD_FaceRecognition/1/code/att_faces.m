@@ -3,7 +3,7 @@
 tic;
 %% Your code here
 p='../../att_faces';
-a=dir('../../att_faces');
+a=dir(p);
 A =zeros(92*112,32*6); 
 B =zeros(92*112,32*4); 
  
