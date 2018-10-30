@@ -5,6 +5,29 @@ tic;
 
 image=load('../data/image_low_frequency_noise.mat');
 im=image.Z;
-a=fft2(im);
-absfim2 = log(abs(a)+1); 
+[h,w]=size(im);
+imnew=padarray(im,[h/2,w/2]);
+imf=fft2(imnew);
+im1=fftshift(imf);
+
+logmag=log(abs(im1)+1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 toc;

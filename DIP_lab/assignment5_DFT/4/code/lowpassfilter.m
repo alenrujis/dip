@@ -13,7 +13,7 @@ for u=1:D(1)
    end      
 end
  figure
- imagesc(log(abs(H))+1);
+ imagesc(log(abs(H)+1));
   title(['LPF frequencyD=',num2str(D)]);
  colormap(jet);colorbar;
  

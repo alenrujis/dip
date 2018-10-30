@@ -4,7 +4,7 @@ H=zeros(2*h,2*w);
 filter1=fspecial('gaussian',[2*h,2*w],sigma);
 
 figure
- imagesc(log(abs(filter1))+1);
+ imagesc(log(abs(filter1)+1));
 title(['gaussianfilter frequency sigma =',num2str(sigma)]);
  colormap(jet);colorbar;
  
