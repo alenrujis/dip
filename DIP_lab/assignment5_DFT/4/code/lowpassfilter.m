@@ -18,7 +18,7 @@ end
  colormap(jet);colorbar;
  
 newF=im1.*H;
-inverse=ifft2(fftshift(newF));
+inverse=ifft2(ifftshift(newF));
 realpart=real(inverse);
 
 extract=realpart(h/2+1:h+h/2,w/2+1:w+w/2);
