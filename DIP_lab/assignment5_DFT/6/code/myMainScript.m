@@ -4,12 +4,14 @@ tic;
 %% Your code here
 
 Rectangle = ones(50,70);
+x = -30;
+y = 70;
 %Image I
 ImageI = zeros(300,300);
 ImageI(51:100,51:120) = Rectangle*255;
 %Image J
 ImageJ = zeros(300,300);
-ImageJ(61:110,61:130) = Rectangle*255;
+ImageJ(51+y:100+y,51+x:120+x) = Rectangle*255;
 
 FI = fft2(padarray(ImageI,[150,150]));
 FJ = fft2(padarray(ImageJ,[150,150]));
@@ -31,8 +33,10 @@ imshow(log(abs(Cross_pow)+1))
 
 %%%
 
-ImageIG = imnoise(ImageI,'gaussian',0,20);
-ImageJG = imnoise(ImageJ,'gaussian',0,20);
+% ImageIG = imnoise(ImageI,'gaussian',0,20);
+% ImageJG = imnoise(ImageJ,'gaussian',0,20);
+ImageIG = normrnd(ImageI,20);
+ImageJG = normrnd(ImageJ,20);
 FIG = fft2(padarray(ImageIG,[150,150]));
 FJG = fft2(padarray(ImageJG,[150,150]));
 % FIG = fftshift(FIG);
