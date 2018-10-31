@@ -1,9 +1,0 @@
-function []=gaussianfilter(im1,h,w,sigma)
-H=zeros(2*h,2*w);
-
-filter1=fspecial('gaussian',[2*h,2*w],sigma);
-
-newF=im1.
-
-
-end
