@@ -1,10 +1,10 @@
 function []=lowpassfilter(im1,h,w,D)
 H=zeros(2*h,2*w);
 
-for u=1:D(1)
+for u=1:D
 
-   for v=1:D(1)
-       if u*u+v*v <=D(1)*D(1)
+   for v=1:D
+       if u*u+v*v <=D*D
        H(h+u,w+v)=1;
        H(h-u,w+v)=1;
        H(h+u,w-v)=1;

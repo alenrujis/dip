@@ -10,16 +10,21 @@ imnew=padarray(im,[h/2,w/2]);
 imf=fft2(imnew);
 im1=fftshift(imf);
 
+%----------LOW PASS FILTER
+D=[40 80]; 
 
-D=[40 80];
-
- lowpassfilter(im1,h,w,D(1));
+lowpassfilter(im1,h,w,D(1));
 lowpassfilter(im1,h,w,D(2));
+
+%------------------
+
+%------------gaussian filter
 sigma=[40 80];
- gaussianfilter(im1,h,w,sigma(1));
+
+  gaussianfilter(im1,h,w,sigma(1));
  gaussianfilter(im1,h,w,sigma(2));
 
-
+%-------------
 
 toc;
 

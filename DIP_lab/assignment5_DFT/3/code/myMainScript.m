@@ -12,16 +12,18 @@ imf=fft2(imnew);
 im1=fftshift(imf);
 
 figure
-logmag=log(abs(im1)+1);
+logmag=log(abs(im1)+1); %logmagnitude of fourier transform
 imagesc(logmag);
 colormap(jet);colorbar;
 
 H=zeros(2*h,2*w);
 
-Q=2;
-
+%-------
+Q=2; % number of frequency components to suppress
 ui=[238 276];vi=[245 268];
 R=9;
+%--------
+
 for i=1:2*h
     
    for j=1:2*w
@@ -40,9 +42,9 @@ end
 %  F=im1.*H;
 imnew=ifft2(ifftshift(im1));
 imnew1=real(imnew);
-extract=imnew1(h/2+1:h+h/2,w/2+1:w+w/2);
+extract=imnew1(h/2+1:h+h/2,w/2+1:w+w/2); %filtered image
 figure
-imshow(mat2gray(extract));
+imshow(mat2gray(extract)); 
 
 
 
