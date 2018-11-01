@@ -1,4 +1,4 @@
-function [RMSD,spg_mat] = myBilateralFiltering(im1,corrupt_im1,ss,si)
+function [RMSE,spg_mat] = myBilateralFiltering(im1,corrupt_im1,ss,si)
 %bilateral_filter Summary of this function goes here
 % input - Image, sigma-spatial, sigma-intensity
 % create corrupt image, apply bilateral filter with given sigmas, calculate
@@ -59,7 +59,7 @@ sp = sp_r + sp_c;
 sp = sqrt(sp);
 spg_mat = exp((-0.5/ss^2)*(sp.*sp))/(ss*sqrt(2*pi));
     
-RMSD = sqrt(mean(mean((new_im1 - im1).^2)));
+RMSE = sqrt(mean(mean((new_im1 - im1).^2)));
 % RMSD = 0;
 
 myNumOfColors=200;
@@ -71,17 +71,19 @@ imshow(mat2gray(im1))
 colormap(myColorScale);
 colormap gray;
 colorbar
+title('Original Image');
 subplot(1,3,2)
 imshow(mat2gray(corrupt_im1))
 colormap(myColorScale);
 colormap gray;
 colorbar
+title('Noised Image');
 subplot(1,3,3)
 imshow(mat2gray(new_im1))
 colormap(myColorScale);
 colormap gray;
 colorbar
-
+title('Bilateral Filtered Image');
 
 end
 

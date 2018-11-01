@@ -1,13 +1,13 @@
-function rmsd = myPCADenoising2()
+function rmse = myPCADenoising2(im, im1, sigma)
 %MYPCADENOISING2 Summary of this function goes here
 %   Detailed explanation goes here
 % outputArg1 = inputArg1;
 % outputArg2 = inputArg2;
 
-im = imread('../data/barbara256.png');
-im=double(im);
-sigma=20;
-im1 = im+randn(size(im))*sigma;
+% im = imread('../data/barbara256.png');
+% im=double(im);
+% sigma=20;
+% im1 = im+randn(size(im))*sigma;
 [rows,cols]=size(im1);
 N=1;
 K=200;
@@ -68,13 +68,16 @@ end
 im2=im2_a./im2_b;
 subplot(1,3,1);
 imshow(im/255);
+title('Original Image');
 subplot(1,3,2);
 imshow(im1/255);
+title('Noised Image')
 subplot(1,3,3);
 imshow(im2/255);
+title('PCA Denoised2 Image')
 
 A=double(im2)-double(im);
 A=A.*A;
-rmsd=sqrt(sum(A(:))/(rows*cols));
+rmse=sqrt(sum(A(:))/(rows*cols));
 end
 
