@@ -1,7 +1,7 @@
 % function [red_mask, white_mask, skin_mask]  = create_mask(img)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-  img='../data/8.ppm';
+  img='../data/1.ppm';
   im=imread(img);
   [rows,cols,~] =size(im);
   % im=imresize(im,0.5);
@@ -30,7 +30,7 @@ for i=1:rows
       red_mask(i,j)=1;
     end
     
-    if(im(i,j,1)>150 && im(i,j,2)>120 && im(i,j,3)>140)
+    if(abs(im(i,j,1)-im(i,j,2))<20 && abs(im(i,j,1)-im(i,j,3))<20 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >110 && im(i,j,2) >110 && im(i,j,3) >110 )
 %         sum(im(i,j,:))sum(
 %         >60 && -10<=lab(i,j,2)<=10 && -10<=lab(i,j,3)<=10)
          white_mask(i,j)=0;
