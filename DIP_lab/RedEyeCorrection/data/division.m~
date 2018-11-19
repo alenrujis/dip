@@ -1,4 +1,4 @@
-function [tagimg,tag,xmin,xmax,ymin,ymax,b_count,tot_count] = division(bm)
+function [tagimg] = division(bm)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 tag = 0;
@@ -80,12 +80,6 @@ for i = 2:m-1
                 
 end
 
-xmin = xmin(1:tag);
-xmax = xmax(1:tag);
-ymin = ymin(1:tag);
-ymax = ymax(1:tag);
-b_count  = b_count(1:tag);
-tot_count = tot_count(1:tag);
-
+xmin = xmin(1:)
 end
 
