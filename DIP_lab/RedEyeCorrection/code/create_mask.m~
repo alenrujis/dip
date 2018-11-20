@@ -11,45 +11,9 @@
   % using lab color space and find red where a is greater than 25
   % red_mask=lab(:,:,2)<25;
   hsv = rgb2hsv(im);
-%%
-  % redChannel = im(:, :, 1);
-  % greenChannel = im(:, :, 2);
-  % blueChannel = im(:, :, 3);
-
-  % % Find white, where each color channel is more than , 200
-  % thresholdValue = 200;
-  % white_mask = redChannel > thresholdValue & greenChannel > thresholdValue & blueChannel > thresholdValue;
-  % imshow(red_mask);
-  
-%   black_and_white=rgb2gray(im);
-%   white_mask=black_and_white(:,:,1)>190;
-  % white_mask=abs(1-white_mask);
-  
-%%
-  % finding skin mask
-  % hsv=rgb2hsv(im);
-  % white_mask=hsv(:,:,2)< 0.3 & hsv(:,:,3) > 0.7;
-
-
-% I=double(im);
-% [hue,s,v]=rgb2hsv(I);
-% cb =  0.148* I(:,:,1) - 0.291* I(:,:,2) + 0.439 * I(:,:,3) + 128;
-% cr =  0.439 * I(:,:,1) - 0.368 * I(:,:,2) -0.071 * I(:,:,3) + 128;
-% [w h]=size(I(:,:,1));
-% for i=1:w
-%     for j=1:h            
-%         if 0.01<=hue(i,j) & hue(i,j)<=0.1     
-%             segment(i,j)=1;            
-%         else       
-%             segment(i,j)=0;    
-%         end    
-%     end
-% end
-
-% hsv=rgb2hsv(im);
-% segment=hsv(:,:,1)>=0 & hsv(:,:,1)<=50 & hsv(:,:,2)>=0.23 & hsv(:,:,2)<=0.68 & im(:,:,1) >95 & im(:,:,2) > 40 & im(:,:,3) > 20 & im(:,:,1) > im(:,:,2) & im(:,:,1) > im(:,:,3) & abs(im(:,:,1)-im(:,:,2)) >15;
 skin_mask=zeros(rows,cols);
 red_mask=zeros(rows,cols);
+white_mask=zeros(rows,cols);
 hsv(:,:,1)=hsv(:,:,1)*180;
 hsv(:,:,2)=hsv(:,:,2)*255;
 hsv(:,:,3)=hsv(:,:,3)*255;
@@ -66,30 +30,31 @@ for i=1:rows
       red_mask(i,j)=1;
     end
     
-%     if(lab(i,j,1)>60 && -10<=lab(i,j,2)<=10 && -10<=lab(i,j,3)<=10)
-%         white_mask(i,j)=0;
-%     else
-%         white_mask(i,j)=1;
-%     end
+    if(abs(im(i,j,1)-im(i,j,2))<20 && abs(im(i,j,1)-im(i,j,3))<20 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >110 && im(i,j,2) >110 && im(i,j,3) >110 )
+%         sum(im(i,j,:))sum(
+%         >60 && -10<=lab(i,j,2)<=10 && -10<=lab(i,j,3)<=10)
+         white_mask(i,j)=0;
+     else
+         white_mask(i,j)=1;
+     end
   end
 end
-% red_mask=lab(:,:,2)<25 & lab(:,:,1)<60 ;
-white_mask=rgb2gray(
-imshow(white_mask);
-% im(:,:,1)=I(:,:,1).*segment;   
-% im(:,:,2)=I(:,:,2).*segment; 
-% im(:,:,3)=I(:,:,3).*segment; 
-% imshow(im);
-  % skin_mask=hsv(:,:,1)<0.07 & hsv(:,:,2)>0.25 & hsv(:,:,3) > 0.57;
-  % skin_mask=abs(1-skin_mask);
-  % % imshow(skin_mask);
-  %%
-  % subplot(2,2,1);
-  % imshow(im);
-  % subplot(2,2,2);
-  % imshow(red_mask);
-  % % subplot(2,2,3);
-  % % imshow(white_mask);
-  % subplot(2,2,4);
-  % imshow(segment);
+
+SE=strel('rectangle',[3 3]);
+BW1=imdilate(red_mask,SE);
+BW2=imerode(BW1,SE);
+BW3=imdilate(white_mask,SE);
+BW4=imerode(BW3,SE);
+BW5=imdilate(skin_mask,SE);
+BW6=imerode(BW5,SE);
+
+
+  subplot(2,2,1);
+  imshow(im);
+  subplot(2,2,2);
+  imshow(red);
+  subplot(2,2,3);
+  imshow(white_mask);
+  subplot(2,2,4);
+  imshow(skin_mask);
 % end
