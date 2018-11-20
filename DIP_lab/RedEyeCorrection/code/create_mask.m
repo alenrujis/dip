@@ -49,14 +49,13 @@ BW5=imdilate(skin_mask,SE);
 skin=imerode(BW5,SE);
 
 
-  subplot(2,2,1);
-  imshow(im);
-  subplot(2,2,2);
-  imshow(red);
-  subplot(2,2,3);
-  imshow(white);
-  subplot(2,2,4);
-  imshow(skin);
+%   subplot(2,2,1);
+%   imshow(im);
+%   subplot(2,2,2);
+%   imshow(red);
+%   subplot(2,2,3);
+%   imshow(white);
+%   subplot(2,2,4);
+%   imshow(skin);
 % end
-[tagimg,tag,xmin,xmax,ymin,ymax,b_count,tot_count]=division(red);
-
+ [tagimg,tag,xmin,xmax,ymin,ymax,b_count,tot_count]=division(red);

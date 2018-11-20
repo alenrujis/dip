@@ -15,6 +15,8 @@ for i = 2:m-1
     for j = 2:n-1
         if bm(i,j) == 0 && tagimg(i,j) == 0
             s = CStack();
+%             s=java.util.Stack();
+
             tag = tag + 1;
             tagimg(i,j) = tag;
             xmin(tag) = j;
@@ -22,10 +24,13 @@ for i = 2:m-1
             ymin(tag) = i;
             ymax(tag) = i;
             s.push([i,j]);
-            while ~s.empty()
+%             s.empty()
+            while ~s.isempty()
+                
                 l = s.pop();
                 xi = l(1);
                 xj = l(2);
+                
                 xmin(tag) = min([xj,xmin(tag)]);
                 xmax(tag) = max([xj,xmax(tag)]);
                 ymin(tag) = min([xi,ymin(tag)]);
@@ -33,42 +38,42 @@ for i = 2:m-1
                 tot_count(tag) = tot_count(tag) + 1;
                
                 count = 0;
-                if bm(xi-1,xj-1) == 0 && tagimg(xi-1,xj-1) == 0
+                if xi-1 >0 && xi-1 <=563 && xj-1>0 && xj-1<=751&& bm(xi-1,xj-1) == 0 && tagimg(xi-1,xj-1) == 0
                     tagimg(xi-1,xj-1) = tag;
                     s.push([xi-1,xj-1]);
                     count  = count + 1;
                 end
-                if bm(xi,xj-1) == 0 && tagimg(xi,xj-1) == 0
+                if xi >0 && xi <=563 && xj-1>0 &&xj-1<=751 && bm(xi,xj-1) == 0 && tagimg(xi,xj-1) == 0
                     tagimg(xi,xj-1) = tag;
                     s.push([xi,xj-1]);
                     count  = count + 1;
                 end
-                if bm(xi+1,xj-1) == 0 && tagimg(xi+1,xj-1) == 0
+                if xi+1 >0 && xi+1 <=563 && xj-1>0 &&xj-1<=751&& bm(xi+1,xj-1) == 0 && tagimg(xi+1,xj-1) == 0
                     tagimg(xi+1,xj-1) = tag;
                     s.push([xi+1,xj-1]);
                     count  = count + 1;
                 end
-                if bm(xi-1,xj) == 0 && tagimg(xi-1,xj) == 0
+                if xi-1 >0 && xi-1 <=563 && xj>0 &&xj<=751&& bm(xi-1,xj) == 0 && tagimg(xi-1,xj) == 0
                     tagimg(xi-1,xj) = tag;
-                    s.push(xi-1,xj);
+                    s.push([xi-1,xj]);
                     count  = count + 1;
                 end
-                if bm(xi+1,xj) == 0 && tagimg(xi+1,xj) == 0
+                if xi+1 >0 && xi+1 <=563 && xj>0 &&xj<=751&& bm(xi+1,xj) == 0 && tagimg(xi+1,xj) == 0
                     tagimg(xi+1,xj) = tag;
                     s.push([xi+1,xj]);
                     count  = count + 1;
                 end
-                if bm(xi-1,xj+1) == 0 && tagimg(xi-1,xj+1) == 0
+                if xi-1 >0 && xi-1 <=563 && xj+1>0 &&xj+1<=751&& bm(xi-1,xj+1) == 0 && tagimg(xi-1,xj+1) == 0
                     tagimg(xi-1,xj+1) = tag;
                     s.push([xi-1,xj+1]);
                     count  = count + 1;
                 end
-                if bm(xi,xj+1) == 0 && tagimg(xi,xj+1) == 0
+                if xi >0 && xi <=563 && xj+1>0 &&xj+1<=751&& bm(xi,xj+1) == 0 && tagimg(xi,xj+1) == 0
                     tagimg(xi,xj+1) = tag;
                     s.push([xi,xj+1]);
                     count  = count + 1;
                 end
-                if bm(xi+1,xj+1) == 0 && tagimg(xi+1,xj+1) == 0
+                if xi+1 >0 && xi+1 <=563 && xj+1>0 &&xj+1<=751&& bm(xi+1,xj+1) == 0 && tagimg(xi+1,xj+1) == 0
                     tagimg(xi+1,xj+1) = tag;
                     s.push([xi+1,xj+1]);
                     count  = count + 1;
