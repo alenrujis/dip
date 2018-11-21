@@ -81,13 +81,17 @@ skin=imerode(BW5,SE);
     if tot_count(i) > x 
         
         A_r(i)=tot_count(i);
-         A_w(i)=2*(xmax(i)-xmin(i)) *(ymax(i)-ymin(i));
-        A_s(i)=4*(xmax(i)-xmin(i)) *2*(ymax(i)-ymin(i));
+         
        P(i)=2*((xmax(i)-xmin(i)) +(ymax(i)-ymin(i)));
         R(i)=4*pi*A_r(i)/(P(i)*P(i)); 
         gamma(i)=(xmax(i)-xmin(i))/(ymax(i)-ymin(i));
         neta(i)=max(gamma(i),1/gamma(i));
         zeta(i)=A_r(i)/((xmax(i)-xmin(i)) *(ymax(i)-ymin(i)));
+        
+        A_w(i)=2*(xmax(i)-xmin(i)) *(ymax(i)-ymin(i));
+        A_s(i)=4*(xmax(i)-xmin(i)) *2*(ymax(i)-ymin(i));
+        
+        %put conditions on this%
         
         count_w(i)=0;
         mx=(xmax(i)-xmin(i))/2;
