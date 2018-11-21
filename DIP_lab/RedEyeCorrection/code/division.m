@@ -34,7 +34,7 @@ for i = 2:m-1
                 xmin(tag) = min([xj,xmin(tag)]);
                 xmax(tag) = max([xj,xmax(tag)]);
                 ymin(tag) = min([xi,ymin(tag)]);
-                xmin(tag) = min([xi,ymax(tag)]);
+                ymax(tag) = max([xi,ymax(tag)]);
                 tot_count(tag) = tot_count(tag) + 1;
                
                 count = 0;
