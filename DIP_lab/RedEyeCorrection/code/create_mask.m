@@ -31,7 +31,7 @@ for i=1:rows
       red_mask(i,j)=1;
     end
     
-    if(abs(im(i,j,1)-im(i,j,2))<20 && abs(im(i,j,1)-im(i,j,3))<20 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >110 && im(i,j,2) >110 && im(i,j,3) >110 )
+    if(abs(im(i,j,1)-im(i,j,2))<20 && abs(im(i,j,1)-im(i,j,3))<20 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >80 && im(i,j,2) >110 && im(i,j,3) >80 )
 %         sum(im(i,j,:))sum(
 %         >60 && -10<=lab(i,j,2)<=10 && -10<=lab(i,j,3)<=10)
          white_mask(i,j)=0;
