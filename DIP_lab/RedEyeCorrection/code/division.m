@@ -2,7 +2,7 @@ function [tagimg,tag,xmin,xmax,ymin,ymax,b_count,tot_count] = division(bm)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 tag = 0;
-max_div = 1000;
+max_div = 10000;
 xmin = zeros(max_div);
 xmax = zeros(max_div);
 ymin = zeros(max_div);
@@ -38,42 +38,42 @@ for i = 2:m-1
                 tot_count(tag) = tot_count(tag) + 1;
                
                 count = 0;
-                if xi-1 >0 && xi-1 <=563 && xj-1>0 && xj-1<=751&& bm(xi-1,xj-1) == 0 && tagimg(xi-1,xj-1) == 0
+                if xi-1 >0 && xi-1 <=m && xj-1>0 && xj-1<=n&& bm(xi-1,xj-1) == 0 && tagimg(xi-1,xj-1) == 0
                     tagimg(xi-1,xj-1) = tag;
                     s.push([xi-1,xj-1]);
                     count  = count + 1;
                 end
-                if xi >0 && xi <=563 && xj-1>0 &&xj-1<=751 && bm(xi,xj-1) == 0 && tagimg(xi,xj-1) == 0
+                if xi >0 && xi <=m && xj-1>0 &&xj-1<=n && bm(xi,xj-1) == 0 && tagimg(xi,xj-1) == 0
                     tagimg(xi,xj-1) = tag;
                     s.push([xi,xj-1]);
                     count  = count + 1;
                 end
-                if xi+1 >0 && xi+1 <=563 && xj-1>0 &&xj-1<=751&& bm(xi+1,xj-1) == 0 && tagimg(xi+1,xj-1) == 0
+                if xi+1 >0 && xi+1 <=m && xj-1>0 &&xj-1<=n&& bm(xi+1,xj-1) == 0 && tagimg(xi+1,xj-1) == 0
                     tagimg(xi+1,xj-1) = tag;
                     s.push([xi+1,xj-1]);
                     count  = count + 1;
                 end
-                if xi-1 >0 && xi-1 <=563 && xj>0 &&xj<=751&& bm(xi-1,xj) == 0 && tagimg(xi-1,xj) == 0
+                if xi-1 >0 && xi-1 <=m && xj>0 &&xj<=n&& bm(xi-1,xj) == 0 && tagimg(xi-1,xj) == 0
                     tagimg(xi-1,xj) = tag;
                     s.push([xi-1,xj]);
                     count  = count + 1;
                 end
-                if xi+1 >0 && xi+1 <=563 && xj>0 &&xj<=751&& bm(xi+1,xj) == 0 && tagimg(xi+1,xj) == 0
+                if xi+1 >0 && xi+1 <=m && xj>0 &&xj<=n && bm(xi+1,xj) == 0 && tagimg(xi+1,xj) == 0
                     tagimg(xi+1,xj) = tag;
                     s.push([xi+1,xj]);
                     count  = count + 1;
                 end
-                if xi-1 >0 && xi-1 <=563 && xj+1>0 &&xj+1<=751&& bm(xi-1,xj+1) == 0 && tagimg(xi-1,xj+1) == 0
+                if xi-1 >0 && xi-1 <=m && xj+1>0 &&xj+1<=n&& bm(xi-1,xj+1) == 0 && tagimg(xi-1,xj+1) == 0
                     tagimg(xi-1,xj+1) = tag;
                     s.push([xi-1,xj+1]);
                     count  = count + 1;
                 end
-                if xi >0 && xi <=563 && xj+1>0 &&xj+1<=751&& bm(xi,xj+1) == 0 && tagimg(xi,xj+1) == 0
+                if xi >0 && xi <=m && xj+1>0 &&xj+1<=n&& bm(xi,xj+1) == 0 && tagimg(xi,xj+1) == 0
                     tagimg(xi,xj+1) = tag;
                     s.push([xi,xj+1]);
                     count  = count + 1;
                 end
-                if xi+1 >0 && xi+1 <=563 && xj+1>0 &&xj+1<=751&& bm(xi+1,xj+1) == 0 && tagimg(xi+1,xj+1) == 0
+                if xi+1 >0 && xi+1 <=m && xj+1>0 &&xj+1<=m && bm(xi+1,xj+1) == 0 && tagimg(xi+1,xj+1) == 0
                     tagimg(xi+1,xj+1) = tag;
                     s.push([xi+1,xj+1]);
                     count  = count + 1;
