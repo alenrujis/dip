@@ -1,7 +1,7 @@
 % function [red_mask, white_mask, skin_mask]  = create_mask(img)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-  img='../data/2.ppm';
+  img='../data/10.ppm';
   im=imread(img);
   [rows,cols,~] =size(im);
   % im=imresize(im,0.5);
@@ -43,11 +43,12 @@ end
 SE=strel('rectangle',[3 3]);
 BW1=imdilate(red_mask,SE);
 red=imerode(BW1,SE);
-BW3=imdilate(white_mask,SE);
-white=imerode(BW3,SE);
-BW5=imdilate(skin_mask,SE);
-skin=imerode(BW5,SE);
-
+% BW3=imdilate(white_mask,SE);
+% white=imerode(BW3,SE);
+% BW5=imdilate(skin_mask,SE);
+% skin=imerode(BW5,SE);
+skin = skin_mask;
+white = white_mask;
 
 %   subplot(2,2,1);
 %   imshow(im);
@@ -149,9 +150,8 @@ skin=imerode(BW5,SE);
  subplot(2,2,2)
  imshow(red)
  subplot(2,2,3)
- imshow(img)
- subplot(2,2,4)
- imshow(white)
+ imshow(im)
+ 
  
  
  
