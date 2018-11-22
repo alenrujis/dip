@@ -1,8 +1,8 @@
-% function []  = create_mask(iter)
+function []  = create_mask(iter)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-%   img=['../data/',num2str(iter),'.ppm'];
-img='../data/19.ppm';
+% iter = 24;
+  img=['../data/',num2str(iter),'.ppm'];
   im=imread(img);
   [rows,cols,~] =size(im);
   % im=imresize(im,0.5);
@@ -146,7 +146,11 @@ white = white_mask;
          for i=1:rows
              for j=1:cols
                  if tagimg(i,j) == t
-                     im(i,j,1) = (im(i,j,2) + im(i,j,3))/2;
+                     x = (im(i,j,2) + im(i,j,3))/2;
+                     if x < 50
+                         im(i,j,1) = x;
+                     end
+                         
                  end
              end
          end
@@ -154,17 +158,17 @@ white = white_mask;
      end
  end
 %  figure1 = figure;
- subplot(2,2,1)
+ subplot(1,2,1)
  imshow(img);
- subplot(2,2,2)
- imshow(red)
- subplot(2,2,3)
+%  subplot(1,2,2)
+%  imshow(red)
+ subplot(1,2,2)
  imshow(im)
- subplot(2,2,4)
- imshow(white)
+%  subplot(2,2,4)
+%  imshow(white)
 
-%  saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
-%  close all;
-% end
+ saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
+ close all;
+end
  
  
