@@ -1,12 +1,12 @@
-% function [red_mask, white_mask, skin_mask]  = create_mask(img)
+function []  = create_mask(iter)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-  img='../data/10.ppm';
+  img=['../data/',num2str(iter),'.ppm'];
   im=imread(img);
   [rows,cols,~] =size(im);
   % im=imresize(im,0.5);
   %%
-  lab = rgb2lab(im);
+%   lab = rgb2lab(im);
 
   % using lab color space and find red where a is greater than 25
   % red_mask=lab(:,:,2)<25;
@@ -91,15 +91,19 @@ white = white_mask;
         neta(i)=max(gamma(i),1/gamma(i));
         zeta(i)=A_r(i)/((xmax(i)-xmin(i)) *(ymax(i)-ymin(i)));
         
-        A_w(i)=2*(xmax(i)-xmin(i)) *(ymax(i)-ymin(i));
-        A_s(i)=4*(xmax(i)-xmin(i)) *2*(ymax(i)-ymin(i));
+        A_w(i)=10*(xmax(i)-xmin(i)) *(ymax(i)-ymin(i));
+        A_s(i)=12*(xmax(i)-xmin(i)) *6*(ymax(i)-ymin(i));
         
         %put conditions on this%
         
         count_w(i)=0;
         mx=(xmax(i)-xmin(i))/2;
         my=(ymax(i)-ymin(i))/2;
-        for a=max(1,round(xmin(i)-mx,0)):min(round(xmax(i) + mx,0),cols)
+        mx = round(mx,0);
+        my=round(my,0);
+        for a=max(1,round(xmin(i)-9*mx,0)):min(round(xmax(i) + 9*mx,0),cols)
+%         for a=max(1i,xmin(i) - ):min([mx + 30 , cols])
+%             display(a);
             for b=max(1,ymin(i)):min(ymax(i),rows)
                 if white(b,a) == 0
                    count_w(i)=count_w(i)+1; 
@@ -109,26 +113,27 @@ white = white_mask;
 %         idx = white(max(1,ymin(i)):min(ymax(i),563),)
          count_s(i)=0;
 
-        for c=max(1,round(xmin(i)-3*mx,0)):min(round(xmax(i) + 3*mx,0),cols)
-            for d=max(1,round(ymin(i)-my,0)):min(round(ymax(i)+my,0),rows)
+        for c=max(1,round(xmin(i)-11*mx,0)):min(round(xmax(i) +11*mx,0),cols)
+%         for c = max([mx -100,1]):min([mx + 100, cols])
+            for d=max(1,ymin(i) - 5*my):min(ymax(i) + 5*my,rows)
                 if skin(d,c)== 0
                    count_s(i)=count_s(i)+1; 
                 end   
             end
         end
         
-        pw(i)=count_w(i)/(A_r(i)*A_w(i));
+        pw(i)=count_w(i)/A_w(i);
         ps(i)=count_s(i)/A_s(i);    
         
         
     end
  end
  
- test_r = R > 0.05;
- test_n = neta < 1.1;
- test_z = zeta > 0.8;
+ test_r = R > 0.03;
+ test_n = neta < 2;
+ test_z = zeta > 0.5;
  test_w = pw > 0;
- test_s = ps > 0.2;
+ test_s = ps > 0.1;
  
  test_final = test_r & test_n & test_z & test_s & test_w;
  
@@ -145,14 +150,18 @@ white = white_mask;
          im(ymin(t):ymax(t),xmin(t):xmax(t)) = imgaussfilt3(im(ymin(t):ymax(t),xmin(t):xmax(t)));
      end
  end
+ figure1 = figure;
  subplot(2,2,1)
  imshow(img);
  subplot(2,2,2)
  imshow(red)
  subplot(2,2,3)
  imshow(im)
- 
- 
- 
+ subplot(2,2,4)
+ imshow(white)
+
+ saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
+ close all;
+end
  
  

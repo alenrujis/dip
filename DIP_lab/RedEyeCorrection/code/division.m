@@ -73,7 +73,7 @@ for i = 2:m-1
                     s.push([xi,xj+1]);
                     count  = count + 1;
                 end
-                if xi+1 >0 && xi+1 <=m && xj+1>0 &&xj+1<=m && bm(xi+1,xj+1) == 0 && tagimg(xi+1,xj+1) == 0
+                if xi+1 >0 && xi+1 <=m && xj+1>0 &&xj+1<=n && bm(xi+1,xj+1) == 0 && tagimg(xi+1,xj+1) == 0
                     tagimg(xi+1,xj+1) = tag;
                     s.push([xi+1,xj+1]);
                     count  = count + 1;

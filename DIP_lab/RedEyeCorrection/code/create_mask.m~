@@ -43,11 +43,12 @@ end
 SE=strel('rectangle',[3 3]);
 BW1=imdilate(red_mask,SE);
 red=imerode(BW1,SE);
-BW3=imdilate(white_mask,SE);
-white=imerode(BW3,SE);
-BW5=imdilate(skin_mask,SE);
-skin=imerode(BW5,SE);
-
+% BW3=imdilate(white_mask,SE);
+% white=imerode(BW3,SE);
+% BW5=imdilate(skin_mask,SE);
+% skin=imerode(BW5,SE);
+skin = skin_mask;
+white = white_mask;
 
 %   subplot(2,2,1);
 %   imshow(im);
@@ -90,15 +91,16 @@ skin=imerode(BW5,SE);
         neta(i)=max(gamma(i),1/gamma(i));
         zeta(i)=A_r(i)/((xmax(i)-xmin(i)) *(ymax(i)-ymin(i)));
         
-        A_w(i)=2*(xmax(i)-xmin(i)) *(ymax(i)-ymin(i));
-        A_s(i)=4*(xmax(i)-xmin(i)) *2*(ymax(i)-ymin(i));
+        A_w(i)=4*(xmax(i)-xmin(i)) *(ymax(i)-ymin(i));
+        A_s(i)=8*(xmax(i)-xmin(i)) *2*(ymax(i)-ymin(i));
         
         %put conditions on this%
         
         count_w(i)=0;
-        mx=(xmax(i)-xmin(i))/2;
+        mx=(xmax(i)+xmin(i))/2;
         my=(ymax(i)-ymin(i))/2;
-        for a=max(1,round(xmin(i)-mx,0)):min(round(xmax(i) + mx,0),cols)
+%         for a=max(1,round(xmin(i)-3*mx,0)):min(round(xmax(i) + 3*mx,0),cols)
+        for a=max[1,mx - 20]:min([mx + 20 , cols])
             for b=max(1,ymin(i)):min(ymax(i),rows)
                 if white(b,a) == 0
                    count_w(i)=count_w(i)+1; 
@@ -108,7 +110,8 @@ skin=imerode(BW5,SE);
 %         idx = white(max(1,ymin(i)):min(ymax(i),563),)
          count_s(i)=0;
 
-        for c=max(1,round(xmin(i)-3*mx,0)):min(round(xmax(i) + 3*mx,0),cols)
+%         for c=max(1,round(xmin(i)-7*mx,0)):min(round(xmax(i) + 7*mx,0),cols)
+        for c = max([mx -40,1):min(mx + 40, cols)
             for d=max(1,round(ymin(i)-my,0)):min(round(ymax(i)+my,0),rows)
                 if skin(d,c)== 0
                    count_s(i)=count_s(i)+1; 
@@ -116,7 +119,7 @@ skin=imerode(BW5,SE);
             end
         end
         
-        pw(i)=count_w(i)/(A_r(i)*A_w(i));
+        pw(i)=count_w(i)/A_w(i);
         ps(i)=count_s(i)/A_s(i);    
         
         
@@ -125,15 +128,33 @@ skin=imerode(BW5,SE);
  
  test_r = R > 0.05;
  test_n = neta < 1.1;
- test_z = zeta > 0.8;
+ test_z = zeta > 0.6;
  test_w = pw > 0;
- test_s = ps > 0.2;
+ test_s = ps > 0.1;
  
- test_final = test_r & test_n & test_z & test_s & test_w;
+ test_final = test_r & test_n & test_z & test_s;;% & test_w;
  
  
  for t=1:tag
-     
+     if test_final(t) == 1
+         for i=1:rows
+             for j=1:cols
+                 if tagimg(i,j) == t
+                     im(i,j,1) = (im(i,j,2) + im(i,j,3))/2;
+                 end
+             end
+         end
+         im(ymin(t):ymax(t),xmin(t):xmax(t)) = imgaussfilt3(im(ymin(t):ymax(t),xmin(t):xmax(t)));
+     end
+ end
+ subplot(2,2,1)
+ imshow(img);
+ subplot(2,2,2)
+ imshow(red)
+ subplot(2,2,3)
+ imshow(im)
+ 
+ 
  
  
  
