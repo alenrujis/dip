@@ -1,7 +1,7 @@
 % function []  = create_mask(iter)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-iter = 30;
+iter = 10;
   img=['../data/',num2str(iter),'.ppm'];
   im=imread(img);
   [rows,cols,~] =size(im);
@@ -18,20 +18,30 @@ white_mask=zeros(rows,cols);
 hsv(:,:,1)=hsv(:,:,1)*180;
 hsv(:,:,2)=hsv(:,:,2)*255;
 hsv(:,:,3)=hsv(:,:,3)*255;
+Mycr =  zeros(3,3);
+Mycr(1,:) = [0.257 0.504 0.098];
+Mycr(2,:) = [-0.317 0.438 -0.121];
+Mycr(3,:) = [0.439 -0.368 -0.071];
+Add = [16 128 128]';
+% ycr(:,:,:)= 
 for i=1:rows
   for j=1:cols
+      M = Mycr*[double(im(i,j,1)) double(im(i,j,2)) double(im(i,j,3))]' + Add;
+      Cg = M(2)*cos(30) + M(3)*sin(30) - 48;
+      Cr = M(2)*sin(30) + M(3)*cos(30) + 80;
     if(im(i,j,1)>95 && im(i,j,2)>40 && im(i,j,3)>20 && (max(max(im(i,j,1), im(i,j,2)), im(i,j,3) ) - min(min( im(i,j,1), im(i,j,2)),   im(i,j,3) )) >15 && abs(im(i,j,1)-im(i,j,2)) >15 && im(i,j,1) >im(i,j,2) && im(i,j,1) > im(i,j,3) )
       skin_mask(i,j)=0;
     else
       skin_mask(i,j)=1;
     end
-    if( ((hsv(i,j,1)>=0 && hsv(i,j,1) <=10) || (hsv(i,j,1) >=170 && hsv(i,j,1) <=180)) && hsv(i,j,2) > 130 && hsv(i,j,3) > 50  )
-      red_mask(i,j)=0;
+%     if( ((hsv(i,j,1)>=0 && hsv(i,j,1) <=10) || (hsv(i,j,1) >=170 && hsv(i,j,1) <=180)) && hsv(i,j,2) > 130 && hsv(i,j,3) > 50  )
+    if double(im(i,j,1))^2/(im(i,j,2)^2 + im(i,j,3)^2 + 14) > 100 & ~(Cg >= 123 && Cg  <= 140 && Cr>=136 && Cr <= 21) 
+        red_mask(i,j)=0;
     else
       red_mask(i,j)=1;
     end
     
-    if(abs(im(i,j,1)-im(i,j,2))<20 && abs(im(i,j,1)-im(i,j,3))<20 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >110 && im(i,j,2) >110 && im(i,j,3) >110 )
+    if(abs(im(i,j,1)-im(i,j,2))<20 && abs(im(i,j,1)-im(i,j,3))<20 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >80 && im(i,j,2) >110 && im(i,j,3) >80 )
 %         sum(im(i,j,:))sum(
 %         >60 && -10<=lab(i,j,2)<=10 && -10<=lab(i,j,3)<=10)
          white_mask(i,j)=0;
@@ -144,22 +154,26 @@ white = white_mask;
          for i=1:rows
              for j=1:cols
                  if tagimg(i,j) == t
-                     im(i,j,1) = (im(i,j,2) + im(i,j,3))/2;
+                     x = (im(i,j,2) + im(i,j,3))/2;
+                     if x < 50
+                         im(i,j,1) = x;
+                     end
+                         
                  end
              end
          end
          im(ymin(t):ymax(t),xmin(t):xmax(t)) = imgaussfilt3(im(ymin(t):ymax(t),xmin(t):xmax(t)));
      end
  end
- figure1 = figure;
- subplot(2,2,1)
- imshow(img);
+%  figure1 = figure;
+%  subplot(2,2,1)
+%  imshow(img);
  subplot(2,2,2)
  imshow(red)
  subplot(2,2,3)
  imshow(im)
- subplot(2,2,4)
- imshow(white)
+%  subplot(2,2,4)
+%  imshow(white)
 
 %  saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
 %  close all;
