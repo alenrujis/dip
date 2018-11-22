@@ -1,7 +1,8 @@
-function []  = create_mask(iter)
+% function []  = create_mask(iter)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-  img=['../data/',num2str(iter),'.ppm'];
+%   img=['../data/',num2str(iter),'.ppm'];
+img='../data/19.ppm';
   im=imread(img);
   [rows,cols,~] =size(im);
   % im=imresize(im,0.5);
@@ -26,11 +27,13 @@ for i=1:rows
     end
     if( ((hsv(i,j,1)>=0 && hsv(i,j,1) <=10) || (hsv(i,j,1) >=170 && hsv(i,j,1) <=180)) && hsv(i,j,2) > 130 && hsv(i,j,3) > 50  )
       red_mask(i,j)=0;
+    elseif(im(i,j,2)<im(i,j,1)/2 && (im(i,j,1)-im(i,j,3)>30) && abs(im(i,j,1)-100)<35)
+      red_mask(i,j)=0;
     else
       red_mask(i,j)=1;
     end
     
-    if(abs(im(i,j,1)-im(i,j,2))<20 && abs(im(i,j,1)-im(i,j,3))<20 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >110 && im(i,j,2) >110 && im(i,j,3) >110 )
+    if(abs(im(i,j,1)-im(i,j,2))<30 && abs(im(i,j,1)-im(i,j,3))<30 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >80 && im(i,j,2) >80 && im(i,j,3) >80 )
 %         sum(im(i,j,:))sum(
 %         >60 && -10<=lab(i,j,2)<=10 && -10<=lab(i,j,3)<=10)
          white_mask(i,j)=0;
@@ -150,7 +153,7 @@ white = white_mask;
          im(ymin(t):ymax(t),xmin(t):xmax(t)) = imgaussfilt3(im(ymin(t):ymax(t),xmin(t):xmax(t)));
      end
  end
- figure1 = figure;
+%  figure1 = figure;
  subplot(2,2,1)
  imshow(img);
  subplot(2,2,2)
@@ -160,8 +163,8 @@ white = white_mask;
  subplot(2,2,4)
  imshow(white)
 
- saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
- close all;
-end
+%  saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
+%  close all;
+% end
  
  
