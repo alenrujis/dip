@@ -132,7 +132,8 @@ skin=imerode(BW5,SE);
  test_final = test_r & test_n & test_z & test_s & test_w;
  
  
- 
+ for t=1:tag
+     
  
  
  

@@ -1,7 +1,7 @@
 % function [red_mask, white_mask, skin_mask]  = create_mask(img)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-  img='../data/10.ppm';
+  img='../data/2.ppm';
   im=imread(img);
   [rows,cols,~] =size(im);
   % im=imresize(im,0.5);
@@ -132,6 +132,26 @@ skin=imerode(BW5,SE);
  test_final = test_r & test_n & test_z & test_s & test_w;
  
  
+ for t=1:tag
+     if test_final(t) == 1
+         for i=1:rows
+             for j=1:cols
+                 if tagimg(i,j) == t
+                     im(i,j,1) = (im(i,j,2) + im(i,j,3))/2;
+                 end
+             end
+         end
+         im(ymin(t):ymax(t),xmin(t):xmax(t)) = imgaussfilt3(im(ymin(t):ymax(t),xmin(t):xmax(t)));
+     end
+ end
+ subplot(2,2,1)
+ imshow(img);
+ subplot(2,2,2)
+ imshow(red)
+ subplot(2,2,3)
+ imshow(img)
+ subplot(2,2,4)
+ imshow(white)
  
  
  
