@@ -1,6 +1,7 @@
 function []  = create_mask(iter)
 %M Summary of this function goes here
 %   Detailed explanation goes here
+% iter = 24;
   img=['../data/',num2str(iter),'.ppm'];
   im=imread(img);
   [rows,cols,~] =size(im);
@@ -143,7 +144,11 @@ white = white_mask;
          for i=1:rows
              for j=1:cols
                  if tagimg(i,j) == t
-                     im(i,j,1) = (im(i,j,2) + im(i,j,3))/2;
+                     x = (im(i,j,2) + im(i,j,3))/2;
+                     if x < 50
+                         im(i,j,1) = x;
+                     end
+                         
                  end
              end
          end
