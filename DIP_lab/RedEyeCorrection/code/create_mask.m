@@ -1,8 +1,8 @@
 % function []  = create_mask(iter)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-iter = 16;
-  img=['../data/',num2str(iter),'.ppm'];
+% iter = 7;
+  img=['../test.jpeg'];
   im=imread(img);
   [rows,cols,~] =size(im);
   % im=imresize(im,0.5);
@@ -40,8 +40,9 @@ for i=1:rows
     else
       red_mask(i,j)=1;
     end
-    
+
     if(abs(im(i,j,1)-im(i,j,2))<30 && abs(im(i,j,1)-im(i,j,3))<30 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >80 && im(i,j,2) > 80 && im(i,j,3) >80 )
+
 %         sum(im(i,j,:))sum(
 %         >60 && -10<=lab(i,j,2)<=10 && -10<=lab(i,j,3)<=10)
          white_mask(i,j)=0;
@@ -141,8 +142,8 @@ white = white_mask;
  end
  
  test_r = R > 0.01;
- test_n = neta < 2;
- test_z = zeta > 0.5;
+ test_n = neta < 1.8;
+ test_z = zeta > 0.6;
  test_w = pw > 0;
  test_s = ps > 0.1;
  
@@ -166,14 +167,14 @@ white = white_mask;
      end
  end
 %  figure1 = figure;
- subplot(2,2,1)
+ subplot(1,2,1)
  imshow(img);
- subplot(2,2,2)
- imshow(red)
- subplot(2,2,3)
+%  subplot(2,2,2)
+%  imshow(red)
+ subplot(1,2,2)
  imshow(im)
- subplot(2,2,4)
- imshow(skin)
+%  subplot(2,2,4)
+%  imshow(white)
 % imwrite(im,['../corrected/',num2str(iter),'.ppm'])
 %  saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
 %  close all;
