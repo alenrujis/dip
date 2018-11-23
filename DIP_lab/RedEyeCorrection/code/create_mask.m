@@ -1,7 +1,7 @@
-function []  = create_mask(iter)
+% function []  = create_mask(iter)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-% iter = 31;
+iter = 16;
   img=['../data/',num2str(iter),'.ppm'];
   im=imread(img);
   [rows,cols,~] =size(im);
@@ -41,7 +41,7 @@ for i=1:rows
       red_mask(i,j)=1;
     end
     
-    if(abs(im(i,j,1)-im(i,j,2))<30 && abs(im(i,j,1)-im(i,j,3))<30 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >80 && im(i,j,2) >110 && im(i,j,3) >80 )
+    if(abs(im(i,j,1)-im(i,j,2))<30 && abs(im(i,j,1)-im(i,j,3))<30 && abs(im(i,j,2)-im(i,j,3))<30 && im(i,j,1) >80 && im(i,j,2) > 80 && im(i,j,3) >80 )
 %         sum(im(i,j,:))sum(
 %         >60 && -10<=lab(i,j,2)<=10 && -10<=lab(i,j,3)<=10)
          white_mask(i,j)=0;
@@ -95,7 +95,7 @@ white = white_mask;
  for i=1:tag
     if A_r(i) > x 
         
-         
+%         P(i) = (xmax(i)-xmin(i))*(ymax(i)-ymin(i))
      
         R(i)=4*pi*A_r(i)/(P(i)*P(i)); 
         gamma(i)=(xmax(i)-xmin(i))/(ymax(i)-ymin(i));
@@ -140,7 +140,7 @@ white = white_mask;
     end
  end
  
- test_r = R > 0.03;
+ test_r = R > 0.01;
  test_n = neta < 2;
  test_z = zeta > 0.5;
  test_w = pw > 0;
@@ -166,17 +166,17 @@ white = white_mask;
      end
  end
 %  figure1 = figure;
-%  subplot(2,2,1)
-%  imshow(img);
-%  subplot(2,2,2)
-%  imshow(red)
-%  subplot(2,2,3)
-%  imshow(im)
-%  subplot(2,2,4)
-%  imshow(skin)
-imwrite(im,['../corrected/',num2str(iter),'.ppm'])
+ subplot(2,2,1)
+ imshow(img);
+ subplot(2,2,2)
+ imshow(red)
+ subplot(2,2,3)
+ imshow(im)
+ subplot(2,2,4)
+ imshow(skin)
+% imwrite(im,['../corrected/',num2str(iter),'.ppm'])
 %  saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
 %  close all;
-end
+% end
  
  
