@@ -1,7 +1,7 @@
 function []  = create_mask(iter)
 %M Summary of this function goes here
 %   Detailed explanation goes here
-% iter = 24;
+% iter = 31;
   img=['../data/',num2str(iter),'.ppm'];
   im=imread(img);
   [rows,cols,~] =size(im);
@@ -18,17 +18,25 @@ white_mask=zeros(rows,cols);
 hsv(:,:,1)=hsv(:,:,1)*180;
 hsv(:,:,2)=hsv(:,:,2)*255;
 hsv(:,:,3)=hsv(:,:,3)*255;
+Mycr =  zeros(3,3);
+Mycr(1,:) = [0.257 0.504 0.098];
+Mycr(2,:) = [-0.317 0.438 -0.121];
+Mycr(3,:) = [0.439 -0.368 -0.071];
+Add = [16 128 128]';
+% ycr(:,:,:)= 
 for i=1:rows
   for j=1:cols
+      M = Mycr*[double(im(i,j,1)) double(im(i,j,2)) double(im(i,j,3))]' + Add;
+      Cg = M(2)*cos(30) + M(3)*sin(30) - 48;
+      Cr = M(2)*sin(30) + M(3)*cos(30) + 80;
     if(im(i,j,1)>95 && im(i,j,2)>40 && im(i,j,3)>20 && (max(max(im(i,j,1), im(i,j,2)), im(i,j,3) ) - min(min( im(i,j,1), im(i,j,2)),   im(i,j,3) )) >15 && abs(im(i,j,1)-im(i,j,2)) >15 && im(i,j,1) >im(i,j,2) && im(i,j,1) > im(i,j,3) )
       skin_mask(i,j)=0;
     else
       skin_mask(i,j)=1;
     end
     if( ((hsv(i,j,1)>=0 && hsv(i,j,1) <=10) || (hsv(i,j,1) >=170 && hsv(i,j,1) <=180)) && hsv(i,j,2) > 130 && hsv(i,j,3) > 50  )
-      red_mask(i,j)=0;
-    elseif(im(i,j,2)<im(i,j,1)/2 && (im(i,j,1)-im(i,j,3)>30) && abs(im(i,j,1)-100)<35)
-      red_mask(i,j)=0;
+%     if double(im(i,j,1))^2/(im(i,j,2)^2 + im(i,j,3)^2 + 14) > 50 && ~(M(2) >= 123 && M(2)  <= 140 && M(3)>=136 && M(3) <= 217) 
+        red_mask(i,j)=0;
     else
       red_mask(i,j)=1;
     end
@@ -147,9 +155,9 @@ white = white_mask;
              for j=1:cols
                  if tagimg(i,j) == t
                      x = (im(i,j,2) + im(i,j,3))/2;
-                     if x < 50
+%                      if skin(i,j) == 1
                          im(i,j,1) = x;
-                     end
+%                      end
                          
                  end
              end
@@ -158,17 +166,17 @@ white = white_mask;
      end
  end
 %  figure1 = figure;
- subplot(1,2,1)
- imshow(img);
-%  subplot(1,2,2)
+%  subplot(2,2,1)
+%  imshow(img);
+%  subplot(2,2,2)
 %  imshow(red)
- subplot(1,2,2)
- imshow(im)
+%  subplot(2,2,3)
+%  imshow(im)
 %  subplot(2,2,4)
-%  imshow(white)
-
- saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
- close all;
+%  imshow(skin)
+imwrite(im,['../corrected/',num2str(iter),'.ppm'])
+%  saveas(figure1,['../corrected/',num2str(iter),'.ppm'])
+%  close all;
 end
  
  
